@@ -4,6 +4,11 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.17 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: LibEditMode (Edit Mode integration, embeddable unmodified) and Mechanic
+  (developer tooling with API stubs generated from the docs) added to the small finds.
+
 ## wow-addon-dev 0.5.16 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: Useful Plates and Tooltips (`usefulplates.md`, GPL-3.0, ideas only): the

@@ -419,6 +419,10 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - `references/usefulplates.md` (GPL-3.0: ideas only): "next swing" abilities lie about range (Heroic
   Strike true at 30 yd); hunter range ladder with items; absorbs secret → StatusBar overlay; combo
   points live on the target; the client loads a `_Mainline.toc` on Forever when both exist.
+- Small finds in `references/addon-lessons.md`: **LibEditMode** (Edit Mode integration for our
+  frames, embeddable unmodified: Context's drag-and-drop groups), Mechanic (dev tooling: API stubs
+  generated from the docs for offline tests), KSmartDebuff, Metails, ForeverRing, Datamine, DBM-PvP,
+  flyPlateBuffsFixed.
 - Not used: Arc Auras (its license forbids reusing even its methods), ElvUI (its AGENTS.md forbids AI reference use), Bleakfiber's addons (private study only), Threat Plates (its source
   `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
