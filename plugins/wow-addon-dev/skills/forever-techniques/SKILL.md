@@ -32,7 +32,20 @@ here is one of five ways to still get a decision. Classify a new find by which o
 | **B. The event itself**: THAT something happened, even with a hidden payload | yes ("something changed") | enemy `UNIT_SPELLCAST_*` (KICK alert), `UNIT_AURA`, nameplate added/removed (stealth check) |
 | **C. Geometry and time**: combine yes/no answers with what you know (your position, the clock) | yes | range ladder, locator (trilateration), flip timing |
 | **D. The engine decides, Lua never knows**: the condition only drives a visual | no, the screen does | `SetAlphaFromBoolean`, color from booleans/curves, engine aura containers, nested-container AND tints, **geometry gates** (NOT, time-left, stacks: below) |
-| **E. Ask before reading**: is this going to be hidden here? | yes (switch strategy) | `C_Secrets.Should...BeSecret` |
+| **E. Ask before reading**: is this going to be hidden here? | yes (switch strategy) | `C_Secrets.Should...BeSecret`: the 27 predicates are listed below the table |
+
+**Way E, the full kit** (**declared**, `SecretPredicateAPIDocumentation.lua`, build 70245): `C_Secrets.`
+`HasSecretRestrictions`, `ShouldAurasBeSecret`, `ShouldSpellAuraBeSecret`, `GetSpellAuraSecrecy`,
+`ShouldUnitAuraIndexBeSecret`, `ShouldUnitAuraInstanceBeSecret`, `ShouldUnitAuraSlotBeSecret`,
+`ShouldCooldownsBeSecret`, `ShouldSpellCooldownBeSecret`, `GetSpellCooldownSecrecy`,
+`ShouldActionCooldownBeSecret`, `ShouldSpellBookItemCooldownBeSecret`, `GetSpellCastSecrecy`,
+`ShouldUnitSpellCastBeSecret`, `ShouldUnitSpellCastingBeSecret`, `GetPowerTypeSecrecy`,
+`ShouldUnitPowerBeSecret`, `ShouldUnitPowerMaxBeSecret`, `ShouldUnitHealthMaxBeSecret`,
+`ShouldUnitStatsBeSecret`, `ShouldUnitThreatStateBeSecret`, `ShouldUnitThreatValuesBeSecret`,
+`ShouldUnitIdentityBeSecret`, `ShouldUnitComparisonBeSecret`, `CanCompareUnitTokens` (false = APIs
+needing comparable tokens FAIL), `ShouldTotemSlotBeSecret`, `ShouldTotemSpellBeSecret`. Example:
+before `UnitIsUnit(unit, "player")`, `CanCompareUnitTokens` + `ShouldUnitComparisonBeSecret` →
+treat as false when either says no (flyPlateBuffsFixed, `core/units.lua`).
 
 Notes: D is the sanctioned path Blizzard built for hidden values and the most future-proof. A-C rely on
 what the game currently leaves readable; Blizzard has tightened such gaps between builds, so keep

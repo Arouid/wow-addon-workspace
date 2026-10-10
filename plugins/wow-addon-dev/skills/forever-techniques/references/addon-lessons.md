@@ -21,6 +21,17 @@ author's written permission (checked 2026-10-10). Its techniques are off limits,
 
 Status of everything below: **reported** (other authors' notes), unless Mage Kit measured it too.
 
+## Small finds from the GitHub code search (2026-10-10)
+
+| Addon | License | Lesson | Where |
+|---|---|---|---|
+| flyPlateBuffsFixed (`rbgdevx/flyplate-buffs-fixed`, `.toc` 16001) | GPL-2.0 (reusable in Context) | One "restricted" test: modern client AND (`InCombatLockdown()` or `C_Secrets.ShouldAurasBeSecret()`). Before comparing unit tokens, ask `C_Secrets.CanCompareUnitTokens` and `ShouldUnitComparisonBeSecret`, else treat as not equal. **Headless tests mock `C_Secrets` with a `secret` switch**, so every test runs in both modes (`tests/helpers.lua:25, 390-400`; scenarios in `tests/blizzard.lua`, `tests/lifecycle.lua`). | `core/restrictions.lua`, `core/units.lua`, `core/client.lua` |
+| DBM-PvP (`DeadlyBossMods/DBM-PvP`, `.toc` 16001) | rights reserved | No secret handling at all: battleground timers from readable sources (like Capping). | — |
+
+**Idea for our tests** (`tests/test_MageKit.lua`, `tests/test_Context.lua`): a `secret` switch in the
+stubbed `C_Secrets` / `issecretvalue`, and run the pure logic (threat score, curse counting, the
+condition evaluator) in both modes.
+
 ## Showing hidden things (way D: the engine decides)
 
 | Idea | Summary | Source |
