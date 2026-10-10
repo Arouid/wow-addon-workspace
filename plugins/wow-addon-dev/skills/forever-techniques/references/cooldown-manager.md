@@ -29,11 +29,18 @@ Blizzard's code sees what ours can't. Its items know, even in combat and instanc
 - whether a cooldown is active, when it ends (drawn by the engine), charges;
 - whether a tracked aura is on, its duration, its pandemic window;
 - range and usability of the spell (`C_Spell.EnableSpellRangeCheck`, an event-driven range test).
-And it raises **edges**: every item calls, on itself, `TriggerAvailableAlert`,
-`TriggerChargeGainedAlert`, `TriggerAuraAppliedAlert`, `TriggerAuraRemovedAlert`, the pandemic and
-on-cooldown triggers (`CooldownViewerItemMixin:TriggerAlertEvent`), WHETHER OR NOT the player set
-an alert (it then finds no alert and plays nothing). Hooking those gives "it just happened" signals
-for anything the player tracks there: way **B** (the event itself) of deriving a conditional.
+And it raises **edges**: every item calls, on itself, the alert triggers, all of which route through
+`CooldownViewerItemMixin:TriggerAlertEvent(event)` (it then finds no alert and plays nothing).
+Hooking that gives "it just happened" signals for anything the player tracks there: way **B** (the
+event itself) of deriving a conditional. **Corrected 2026-10-10** (Context's criterion-8 review,
+`CooldownViewer.lua` build 70245): NOT every edge fires without a player-set alert.
+- Fire regardless of alerts: **on cooldown** (`RefreshSpellCooldownInfo`, on the GCD-to-real-cooldown
+  transition only, `allowOnCooldownAlert`), **aura applied / removed** (the viewer's `UNIT_AURA`
+  path through `auraInstanceIDToItemFramesMap`), **pandemic** (registers its own OnUpdate).
+- Fire ONLY with a player-set alert: **available** and **charge gained** come from the item's
+  `OnUpdate`, and `NeedsOnUpdateRegistration` is `pandemicAlertTriggerTime or next(alertsByEvent)`.
+  To know a cooldown ended, read the never-secret `isActive` of `C_Spell.GetSpellCooldown` (false
+  and `isEnabled` not false) and raise your own edge.
 
 ## The rules
 
@@ -63,6 +70,30 @@ for anything the player tracks there: way **B** (the event itself) of deriving a
 10. **What's not in a category fires nothing**: to get engine edges for a spell, it has to be in the
     Cooldown Manager (the player adds it, or we guide them to). For spells outside it, fall back to
     our own sources (engine aura containers, cast events, cooldown duration objects).
+
+Learned from Context's criterion-8 review (2026-10-10, `CooldownViewer.lua` and
+`CooldownViewerItemData.lua`, build 70245; status: declared in source, checked by headless tests
+against stubs that follow Blizzard's call order, not yet seen in game):
+
+11. **Acquire comes BEFORE the cooldown ID.** `RefreshLayout` does `ReleaseAll` (the pool's reset
+    callback runs `ResetCooldownData`, so `cooldownID` is nil) and acquires the frames, calling
+    `OnAcquireItemFrame` on each; `RefreshData` then calls `SetCooldownID` → `OnCooldownIDSet`.
+    So the frame's spell is unknown inside the acquire hook: bind in a post-hook of the item's
+    `OnCooldownIDSet`, drop the binding in a post-hook of `ResetCooldownData`, and never trust what
+    an item said before a release (rule 4). Both methods are mixin methods copied onto each frame.
+12. **A cooldown item is "active" as soon as it is bound.** `CooldownViewerItemMixin:ShouldBeActive`
+    is `self.cooldownID ~= nil`; only `CooldownViewerBuffItemMixin:ShouldBeActive` (Tracked Buffs
+    and Tracked Bars items) follows the aura. Read `OnActiveStateChanged` / `IsActive()` as "aura
+    on" only on the two buff viewers' items.
+13. **Glow events are broadcast.** The viewer calls `OnSpellActivationOverlayGlowShowEvent(spellID)`
+    and `...HideEvent(spellID)` on EVERY active item for every `SPELL_ACTIVATION_OVERLAY_GLOW_*`
+    event; the item returns early unless `spellID == self:GetSpellID()`
+    (`NeedSpellActivationUpdate`). A post-hook runs after that early return, so it must compare the
+    spell ID itself (test `issecretvalue` first).
+14. **A hook body that throws aborts Blizzard's loop.** The alert triggers run inside the viewer's
+    loops over its items (`CheckAuraRemovedAlertTriggers` and friends): an error in a post-hook
+    stops Blizzard's remaining items for that event, blamed on the addon. `pcall` a named function
+    inside each hook and keep the error for a probe command.
 
 ## Useful building blocks seen in its code
 
