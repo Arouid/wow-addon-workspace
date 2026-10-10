@@ -242,6 +242,12 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
   `SetAlphaFromBoolean`; "has a target at all" = `UnitSpellTargetName(unit) ~= nil` (a secret is never
   nil); `C_Spell.IsSpellImportant(id)` flags must-kick casts; pair start/stop by the never-secret
   cast ID; `RegisterUnitEvent` takes at most 4 units → **declared** (`references/targetedspells.md`).
+- Stealth, a second opinion (`references/wanteddeadordead.md`, **reported**): the game reports no
+  Stealth/Vanish cast at all; the plate goes, and the TARGET too if they were your target, while a
+  camera turn or a wall drops only the plate. So "plate and target gone together, within ~28 yd,
+  alive, seen acting in the last 30 s, not 3+ plates at once, no cast bar just ended" is their test.
+  `PLAYER_PVP_FLAG_CHANGED` (build 70170+, **declared**) fires when your flag changes; lifetime
+  honorable kills of anyone = achievement comparison statistic 588 (probed 70205).
 - Casts: `UNIT_SPELLCAST_*` fire for target and nameplates in a battleground, spell ID secret,
   `UnitCastingInfo` secret while casting → "someone casts" is knowable → **measured** (KICK alert).
 - Threat score from readable things only (targeting you, vanished nearby, can stealth, level,
@@ -419,6 +425,12 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - `references/usefulplates.md` (GPL-3.0: ideas only): "next swing" abilities lie about range (Heroic
   Strike true at 30 yd); hunter range ladder with items; absorbs secret → StatusBar overlay; combo
   points live on the target; the client loads a `_Mainline.toc` on Forever when both exist.
+- `references/wanteddeadordead.md` (MIT): world PvP enemy awareness compared with Mage Kit's: a
+  stricter stealth test, `UNIT_TARGET` rescans, the PvP flag event, honorable kills via statistic
+  588, Battle.net sharing across factions, secure rows kept in combat with alpha-only health bars.
+- Unbuffed, in `references/buffwarden.md` (MIT): `GetUnitAuraBySpellID` keeps answering in combat
+  for Blizzard's whitelisted long-term raid buffs; ID proves presence only (ranks), name decides
+  absence; three-value answers, nil never drawn as missing.
 - Small finds in `references/addon-lessons.md`: **LibEditMode** (Edit Mode integration for our
   frames, embeddable unmodified: Context's drag-and-drop groups), Mechanic (dev tooling: API stubs
   generated from the docs for offline tests), KSmartDebuff, Metails, ForeverRing, Datamine, DBM-PvP,

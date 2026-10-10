@@ -17,6 +17,24 @@ to ask, orange when running out.
 | "Running out" | Orange under 5 minutes by default; short buffs at a tenth of their duration (never under a minute). | `:327` |
 | Forever names | Every name is two words now: show the full "First Surname". | `:276` |
 
+## Unbuffed (`SokratisV/Unbuffed`, MIT, `.toc` 16001 + 20505): missing buffs on friendly nameplates
+
+Icons beside a friendly player's nameplate for each tracked buff they're missing; a fully buffed
+player shows nothing. Its `Auras.lua` header is the clearest statement of the three aura paths:
+- aura ITERATION (`GetAuraDataByIndex`) throws while auras are secret;
+- **`GetUnitAuraBySpellID` keeps answering in combat, but only for the spell IDs Blizzard whitelisted**,
+  which are exactly the long-term raid buffs (Fortitude, Arcane Intellect, Mark of the Wild...);
+  `C_Secrets.ShouldSpellAuraBeSecret(id)` says whether an ID is one;
+- a refusal looks like "returned nothing", so a nil is ambiguous unless you asked permission first.
+Hence a **three-value answer** (true / false / nil = "wouldn't say"), and nil is never drawn as
+missing. The **ID path proves PRESENCE only**: on Vanilla-era content a buff is a family of per-rank IDs,
+so "no aura with id 1243" means "not that rank"; **absence is decided by NAME** (`GetAuraDataBySpellName`,
+rank-proof, matches aliases like Prayer of Fortitude), only while auras aren't restricted; a full
+scan is the last resort. An entry therefore keeps both its IDs and its names. (`Auras.lua:3-20,
+95-140`, `Core.lua:184-190`) Friendly player nameplates sit behind a CVar whose name moved
+(`nameplateShowFriendlyPlayers` / `nameplateShowFriends`): check both before complaining
+(`Core.lua:303-316`). `/ub check` prints what the client will and won't answer per buff.
+
 ## Ideas for us
 
 - **Mage Kit Buffs**: adopt "unknown, never missing" while auras are secret; ask

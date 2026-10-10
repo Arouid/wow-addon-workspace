@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.18 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: Wanted: Dead or... Dead (`wanteddeadordead.md`, MIT): world PvP enemy
+  awareness compared with Mage Kit's, the PvP flag event, honorable kills via statistic 588;
+  Unbuffed (in `buffwarden.md`, MIT): by-ID aura lookups survive combat for whitelisted raid buffs,
+  ID proves presence, name decides absence.
+
 ## wow-addon-dev 0.5.17 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: LibEditMode (Edit Mode integration, embeddable unmodified) and Mechanic
