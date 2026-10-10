@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.21 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: BazUI (`bazui.md`, GPL-2.0-or-later): secret colors draw black, aura reads
+  refuse and `pcall` can't catch it, ask per aura index (never-secret spells stay readable in
+  combat), interruptible secret on all units but you and your pet. ZEUS, wow-qnMod, KamiUI,
+  forever-guide-mate and cjber's addons sorted (suites / guides, nothing on secrets).
+
 ## wow-addon-dev 0.5.20 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: RareNet (layer detection from creature GUIDs, GPL-3.0 ideas only),

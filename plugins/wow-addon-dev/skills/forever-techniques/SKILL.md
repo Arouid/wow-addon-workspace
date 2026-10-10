@@ -94,6 +94,11 @@ build on it.
   (70009, 2026-09-25, player / target / party1, three runs): in combat every index read THROWS for
   every unit, and by-name lookups silently return nil → **reported (measured by another author)**;
   buff state in combat must come from a cache learned out of combat (`references/priestly-magely.md`).
+  **Two refinements** (BazUI, `references/bazui.md`): the aura reads REFUSE (a restriction violation
+  **`pcall` does not catch**), so ask `C_Secrets.ShouldUnitAuraIndexBeSecret(unit, i, filter)` per
+  index BEFORE reading; and the docs say never-/always-secret flags on individual spells take
+  priority over restrictions (**declared**), so some auras stay readable in a fight: gate per aura,
+  not on `ShouldAurasBeSecret` alone.
 - **Engine containers have an identity rule**: their `includeSpellIDs` / `excludeSpellIDs` are
   ignored for debuffs on friendly units and buffs on enemies (unless the spell is never-secret), and
   a group with `includeSpellIDs` then shows NOTHING. Dispel-type filters (`includeDispelTypes`) still
@@ -147,6 +152,10 @@ build on it.
   `frame:SetAlphaFromBoolean(condB, shown, 0)` shows only when both hold → **reported**
   (TargetedSpells, `references/targetedspells.md`). `secretwrap(v)` makes a plain value secret so
   one path serves both.
+- **A color with secret parts draws BLACK, silently**: setters accept it (`GetClassColor` of a secret
+  class, for instance) but render black with no error → **reported** (BazUI, `references/bazui.md`).
+  Colors reaching a widget must be plain numbers, or come from `EvaluateColorValueFromBoolean` /
+  color curves evaluated by Blizzard functions.
 - Any color, gradients: `C_CurveUtil.EvaluateColorFromBoolean`, color curves (`CreateColorCurve`,
   `AddPoint`) → **candidate**. But **`curve:Evaluate(secret)` from addon code ERRORS**, even out of
   combat (DoesItDie, 2026-09-24, **reported broken**): secrets reach a curve only through Blizzard
@@ -431,6 +440,10 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - Unbuffed, in `references/buffwarden.md` (MIT): `GetUnitAuraBySpellID` keeps answering in combat
   for Blizzard's whitelisted long-term raid buffs; ID proves presence only (ranks), name decides
   absence; three-value answers, nil never drawn as missing.
+- `references/bazui.md` (GPL-2.0-or-later, reusable in Context): secrets forbid comparing, arithmetic
+  AND truth tests (secret booleans can't go in an `if`); secret colors draw black; aura reads refuse
+  and `pcall` can't catch it; ask per aura index; interruptible is secret on every unit but you and
+  your pet (color by `SetVertexColorFromBoolean`, decide only whether YOU can kick).
 - More in `references/addon-lessons.md`: **your layer from creature GUIDs** (RareNet: the
   zoneUID field, 2 creatures to confirm), **mana regen facts** (FullManaForever: continuous regen,
   `GetPowerRegen` secret in combat, own casts and costs readable), Manners (`[@unit]` macro
