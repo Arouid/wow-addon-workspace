@@ -73,7 +73,11 @@ build on it.
 - **Test ONE aura against any filter**: `C_UnitAuras.IsAuraFilteredOutByInstanceID(unit,
   auraInstanceID, filter)` returns a plain boolean, no secrecy flag in the docs → **declared**
   (`references/enhanceqol.md`): classify each instance ID from `GetUnitAuraInstanceIDs` (mine?
-  dispellable? CC?) instead of only counting lists.
+  dispellable? CC?) instead of only counting lists. **But** TellMeWhen reports that while auras are
+  secret every read by index, slot or **instance ID errors**, and `UNIT_AURA`'s payload is all secret;
+  only reads by identifier survive (`GetUnitAuraBySpellID`, `GetAuraDataBySpellName`: data for
+  never-secret spells, nothing for others) → measure this and `GetUnitAuraInstanceIDs` in combat
+  before relying on either (`references/tellmewhen.md`; Mage Kit test 14).
 - **Engine containers have an identity rule**: their `includeSpellIDs` / `excludeSpellIDs` are
   ignored for debuffs on friendly units and buffs on enemies (unless the spell is never-secret), and
   a group with `includeSpellIDs` then shows NOTHING. Dispel-type filters (`includeDispelTypes`) still
@@ -383,6 +387,11 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - `references/doesitdie.md` (MIT): an author's verified table of hidden vs readable values (target
   health secret even out of combat, combo points secret, `UNIT_COMBAT` amounts readable),
   StatusBar comparisons, `curve:Evaluate(secret)` erroring; plus TrufiGCD and tullaRange.
+- `references/tellmewhen.md` (GPL-3.0: ideas only): the "restricted mode" aura model (no
+  enumeration in combat, only lookups by identifier; caches stale when combat ends without
+  `UNIT_AURA`), the access stamp that blocks EVERY call on aura buttons, recycling groups / slots by
+  index, rule-formatted secret timers, a secrecy panel telling users what works in combat; Forever
+  has no `UNIT_HEALTH_FREQUENT`.
 - Not used: Arc Auras (its license forbids reusing even its methods), Threat Plates (its source
   `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).

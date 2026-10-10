@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.12 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: TellMeWhen (`tellmewhen.md`, GPL-3.0, ideas only): aura reading in
+  restricted mode (lookups by identifier only; instance-ID reads error), combat-ready icons on aura
+  containers, secret timers via a rule formatter; a caution added on `IsAuraFilteredOutByInstanceID`
+  and `GetUnitAuraInstanceIDs` until measured.
+
 ## wow-addon-dev 0.5.11 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: SpellActivationOverlay (`spellactivationoverlay.md`: proc art on engine aura
