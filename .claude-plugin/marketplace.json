@@ -1,9 +1,9 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "wow-addon-workspace",
+  "name": "finess-wow-addons",
   "description": "Claude Code plugins for writing and maintaining World of Warcraft addons, and workflow guardrails that work on any project.",
   "owner": {
-    "name": "Wafhien"
+    "name": "Finess (from Wafhien's wow-addon-workspace, MIT)"
   },
   "plugins": [
     {
