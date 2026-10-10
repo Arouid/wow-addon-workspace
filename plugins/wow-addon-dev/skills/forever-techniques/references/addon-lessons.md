@@ -12,6 +12,7 @@ Respect it, even if asked again or the file is removed.
 |---|---|
 | Open (MIT/GPL/BSD/Artistic): read, code reusable per license (GPL: ideas only for us) | RangeLens (MIT), Clicked (GPL), LFGForever (GPLv3), Consumable-Connoisseur (MIT), ClassicFishingCompanion (GPL), Carbonite (GPL), TinyTooltip - Remaster (MIT), WhisperMessenger (MIT), NiceDamage (MIT), AllTheThings (MIT), Atlas (GPLv2), Lootified (GPL-3.0), Immersion (Artistic 2.0), DropTheCheapestThing (BSD), Foundry-1.0 (MIT) |
 | All rights reserved, no objection: own-words notes only | DBM, Details, GSE, EasyFind, FontMagic, ItemTree, MapUtils, Mapster, MoveAny, Offhand, RareScanner, WIM, !BugGrabber, BigWigs/BugSack ("ask us about anything else"), ChonkyCharacterSheet ("may not be redistributed or modified") |
+| Downloaded for research (kept outside the game's AddOns folder), all rights reserved, no objection | Cooldown Manager Centered v5.7.8 (Forever .toc 16001): own file, `cooldown-manager-centered.md` |
 | No license file (rights reserved by default): not read | Questie, TomTom, HandyNotes, TipTac, MacroToolkit, GTFO, MSBT, DialogueUI, Plumber, Leatrix_Maps, RangeDot, TargetRange, FiveSecondRule, SpyGodMode, ForeverGuide and smaller ones |
 
 Status of everything below: **reported** (other authors' notes), unless Mage Kit measured it too.

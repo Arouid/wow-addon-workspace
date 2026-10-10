@@ -84,6 +84,27 @@ build on it.
   (`UnitIsUnit(nameplateN.."target", "player")` is secret ~85% of the time in a battleground).
 - Any color, gradients: `C_CurveUtil.EvaluateColorFromBoolean`, color curves (`CreateColorCurve`,
   `AddPoint`, `Evaluate` on a secret x) → **candidate**.
+- Number curves on a duration object: a 2-point curve (0 → 1, 0.001 → 0) makes
+  `duration:EvaluateRemainingDuration(curve)` "1 when ready, else 0" for `SetAlpha` / `SetDesaturation`
+  → **reported** (Cooldown Manager Centered, `references/cooldown-manager-centered.md`).
+- Sounds the engine plays on an aura event: `C_UnitAuras.AddAuraSound(Enum.UnitAuraSoundTrigger.Added
+  / ApplicationsIncreased / Removed, { unitToken, spellID, soundFileID, throttleSeconds })`; register
+  out of combat while auras aren't secret → **declared** + **reported**.
+
+### Fields Blizzard declares never secret (way A, from the docs)
+The generated docs mark `NeverSecret = true` on 965 fields (2026-10-10, build 70245); most are chat
+metadata. The gameplay ones, **declared** (to measure):
+| API | Never-secret fields |
+|---|---|
+| `C_Spell.GetSpellCooldown` (secret when cooldowns are restricted) | `isActive`, `isEnabled`, `isOnGCD` (trust `isOnGCD` only in `SPELL_UPDATE_COOLDOWN`) |
+| `C_Spell.GetSpellCharges` | `isActive`, `maxCharges` |
+| spell loss of control | `isActive`, `shouldReplaceNormalCooldown` |
+| `C_LossOfControl` data | `displayType`, `priority` |
+| `UnitCastingInfo` / `UnitChannelInfo` | `castBarID`, `delayTimeMs`, `isTradeskill`, `isEmpowered`, `numEmpowerStages` |
+| **`C_PvP.GetScoreInfo`** (battleground scoreboard) | `name`, `className`, `classToken`, `faction`, `raceName` |
+| `C_DamageMeter` sources | `classFilename`, `classification`, `isLocalPlayer`, `specIconID`, `deathRecapID` |
+| duration / curve objects | `HasSecretValues()`: ask an object whether it holds secrets |
+Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocumentationGenerated`.
 
 ### Names and identity
 - Names are **"First Surname"** (`GetUnitName(unit, true)`); `UnitName` gives the first name only, and
@@ -144,6 +165,12 @@ build on it.
   `PLAYER_REGEN_DISABLED`. `CLICK <Button>:LeftButton` key bindings work → **measured**
   (Buff next, 2026-10-04).
 - A string from the network never goes into `macrotext` unsanitized (a newline adds a command).
+- **Before lockdown, officially**: `ADDON_RESTRICTION_STATE_CHANGED (type, state)` with state
+  `Activating` (1) fires while a restriction is about to be enforced; enforcement waits for the end
+  of that dispatch. Types: 0 Combat, 1 Encounter, 2 ChallengeMode, 3 PvPMatch, 4 Map, 5 Chat (addon
+  messages). `C_RestrictedActions.IsAddOnRestrictionActive(type)` asks at any time;
+  `CheckAllowProtectedFunctions(frame, true)` asks silently whether a protected frame can be touched
+  now → **declared** (`RestrictedActions*Documentation.lua`).
 - Blizzard's debug tools from addon code: `securecall(FrameStackTooltip_Toggle, ...)`,
   `securecall(EventTrace.SetShown, EventTrace, true)` after loading them → **declared**.
 - `ColorPickerFrame:SetupColorPickerAndShow` works for addons → **measured**. Wand `/cast !Shoot`:
@@ -159,7 +186,7 @@ build on it.
 | `C_DamageMeter` | per-fight damage (secret in combat, readable after?) | a mana coach (damage per mana per rank) |
 | `C_Secrets.Should...BeSecret` / `Get...Secrecy` | know BEFORE reading if it'll be hidden | the map of what's hidden where |
 | `C_CurveUtil` color curves | engine colors from secret numbers | does Evaluate work tainted? |
-| `C_AssistedCombat.GetNextCastSpell` | Blizzard's rotation hint | available on Forever? |
+| `C_AssistedCombat.GetNextCastSpell` | Blizzard's rotation hint | available on Forever? (Blizzard's `AssistedCombatManager.lua` loads only on `mainline`: expect nothing) |
 
 Run the probe out of combat, in combat, and near enemy players; move each line to its section with
 its status and date.
@@ -195,4 +222,14 @@ secrets and raise engine edges: available, charge gained, aura applied/removed, 
 cooldown, even with no alert set), and the ten rules (post-hook per frame at acquire, never write
 onto Blizzard frames, pooled frames move, read state from the item, tiny hook bodies, the player's
 layout is theirs...).
+
+`references/cooldown-manager-centered.md`: what Cooldown Manager Centered v5.7.8 (its Forever build,
+"all rights reserved", own-words notes) teaches. Headlines:
+- **Eleven rules for engine aura containers**: style the button ONLY inside `initializeFrame`; a
+  child texture inherits the button's secret visibility (a free conditional visual); anchoring a
+  protected aura protects your frame; no creation in combat; target containers need a nudge on
+  target change.
+- Edges from hooks: buff active/inactive, pandemic, ready flash, proc glow, action key presses.
+- Frame identity → `cooldownID` → static info stays readable while the live spell ID is secret.
+- Per-file `[AllowLoadGameType camelot]` tags let one .toc serve Retail and Forever.
 

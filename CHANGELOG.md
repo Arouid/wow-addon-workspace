@@ -4,6 +4,18 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.1 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques` grows from other addons' code, license-checked and summarized in our own
+  words: the five ways to derive a conditional as the catalog's organizing principle; EllesmereUI's
+  notes (`forevercoreskill.md`); every installed addon that allows reading (`addon-lessons.md`);
+  the rules of hooking Blizzard's Cooldown Manager (`cooldown-manager.md`); and Cooldown Manager
+  Centered's Forever build (`cooldown-manager-centered.md`: engine aura container rules, aura
+  sounds the engine plays, curves on duration objects, hook points).
+- From Forever's own docs: the fields Blizzard declares never secret (cooldown `isActive` /
+  `isOnGCD`, battleground scoreboard names and classes...), and `ADDON_RESTRICTION_STATE_CHANGED`'s
+  `Activating` state, an official last window before lockdown.
+
 ## wow-addon-dev 0.5.0 - 2026-10-10 (Finess's copy)
 
 - New command `/wow-addon-dev:link`: links the workspace's addons into the game's

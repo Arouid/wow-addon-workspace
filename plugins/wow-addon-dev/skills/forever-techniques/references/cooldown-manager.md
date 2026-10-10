@@ -3,6 +3,9 @@
 Read 2026-10-10 in Blizzard's Forever source (`Interface/AddOns/Blizzard_CooldownViewer`, the generated
 docs `CooldownViewer*Documentation.lua`), plus EllesmereUI's field notes (`EllesmereUICooldownManager`,
 summarized in our words). Status: **declared** (source) / **reported** (EllesmereUI) until measured by us.
+A full addon built on these hooks, read 2026-10-10: `cooldown-manager-centered.md` (more hook points:
+`OnActiveStateChanged`, `ShowPandemicStateFrame`, `RefreshIconColor`, the ready flash, the proc-glow
+manager, action key presses; and the engine aura container rules).
 
 ## What it is
 
