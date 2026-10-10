@@ -4,6 +4,16 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.4.0 - 2026-10-09 (Finess's copy)
+
+- New skill `forever-techniques`: what to BUILD on Forever, learned making Mage Kit. Reading what the
+  game hides (aura filters with `GetUnitAuraInstanceIDs`, engine-drawn timers from duration
+  objects, `SetAlphaFromBoolean`), full names, trainer service info; distance without a distance
+  API (LibRangeCheck's Forever items as a ladder, measured switch points, trilateration from
+  range-check flips and your own position); stealth and targeting awareness; secure buttons; and the
+  frontier still to probe (engine radar, spoken alerts, CC on units, damage meter, secrecy
+  predicates, color curves, rotation helper). Every entry: proof, status, date.
+
 ## wow-addon-dev 0.3.9 - 2026-10-09
 
 More in `wow-forever-api`, measured on Forever between 2026-10-05 and 2026-10-09:
