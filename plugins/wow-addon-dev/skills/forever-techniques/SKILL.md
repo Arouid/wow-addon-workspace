@@ -431,6 +431,10 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - Unbuffed, in `references/buffwarden.md` (MIT): `GetUnitAuraBySpellID` keeps answering in combat
   for Blizzard's whitelisted long-term raid buffs; ID proves presence only (ranks), name decides
   absence; three-value answers, nil never drawn as missing.
+- More in `references/addon-lessons.md`: **your layer from creature GUIDs** (RareNet: the
+  zoneUID field, 2 creatures to confirm), **mana regen facts** (FullManaForever: continuous regen,
+  `GetPowerRegen` secret in combat, own casts and costs readable), Manners (`[@unit]` macro
+  conditionals don't resolve on Forever; Forever-only spell ranks 1299xxx).
 - Small finds in `references/addon-lessons.md`: **LibEditMode** (Edit Mode integration for our
   frames, embeddable unmodified: Context's drag-and-drop groups), Mechanic (dev tooling: API stubs
   generated from the docs for offline tests), KSmartDebuff, Metails, ForeverRing, Datamine, DBM-PvP,
