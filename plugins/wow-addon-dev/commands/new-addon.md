@@ -29,7 +29,8 @@ addon is for: it makes a better title.
    checks on it: a new addon passes them all. If one fails, say so plainly, since that's a bug in
    the template.
 
-5. Then tell them how to try it in game: put the folder (or a link to it) in the game's
-   `Interface/AddOns`, restart the game client (the game lists its addons at startup, so `/reload`
+5. Then tell them how to try it in game. The output says whether it was linked into the game's
+   `Interface/AddOns` (when `addons.json` has the game folder for that client, see
+   `/wow-addon-dev:link`); if not, offer to set that up, or to put the folder there by hand. Restart the game client (the game lists its addons at startup, so `/reload`
    may not pick up a brand-new folder), and type the slash command. When they've seen it work, a line goes in the addon's
    `docs/verified-in-game.md`.

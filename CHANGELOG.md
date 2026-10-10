@@ -4,6 +4,15 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.0 - 2026-10-10 (Finess's copy)
+
+- New command `/wow-addon-dev:link`: links the workspace's addons into the game's
+  `Interface/AddOns` (a junction on Windows: no administrator rights, no Developer Mode; a
+  symlink elsewhere), so the game loads the copy you edit. The game folder is saved per client in
+  `addons.json` (`flavors.<flavor>.addonsPath`, set with `--set-path`). Dry run first; a real folder
+  or a link elsewhere is never touched.
+- `new-addon` links the new addon itself when the game folder is known.
+
 ## wow-addon-dev 0.4.0 - 2026-10-09 (Finess's copy)
 
 - New skill `forever-techniques`: what to BUILD on Forever, learned making Mage Kit. Reading what the

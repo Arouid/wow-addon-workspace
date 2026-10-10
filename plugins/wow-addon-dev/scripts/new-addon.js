@@ -14,6 +14,7 @@ const { spawnSync } = require('child_process');
 const { readManifest, serialize, FILE } = require('./lib/manifest');
 const T = require('./lib/template');
 const check = require('./check');
+const link = require('./link');
 
 const VALUE_OPTS = ['--root', '--title', '--slash', '--flavor', '--interface', '--author'];
 const FLAGS = ['--tool', '--inactive', '--git', '--write'];
@@ -129,6 +130,12 @@ function main(argv) {
     }
     writePlan(plan);
     if (opts.git) console.log(`\n${initGit(plan)}`);
+    // Into the game right away when addons.json knows the game's AddOns folder (link.js).
+    try {
+      console.log(`\n${link.run({ root: opts.root, names: [opts.name], write: true }).text}`);
+    } catch (err) {
+      console.log(`\nNot linked into the game: ${err.message}`);
+    }
     console.log('\nCreated. Running the checks on it:\n');
     try {
       const r = check.run({ names: [opts.name], root: opts.root, only: ['syntax', 'toc', 'size', 'locale', 'tests'] });

@@ -50,6 +50,10 @@ which build and commit, and what wasn't tried. Write a line only after seeing it
   several clients.
 - `active`: `true` puts the addon in the default set of the workspace tools.
 - `size`, `locale`, `tocParity`: settings of the checks, below.
+- `flavors.<flavor>.addonsPath`: the game's `Interface/AddOns` folder for that client. With it,
+  `/wow-addon-dev:link` (and `new-addon`) link addon folders into the game: a junction on Windows,
+  a symlink elsewhere, so the game loads the copy you edit. `link.js --set-path <folder> --flavor
+  <flavor>` writes it. A real folder already in AddOns is never touched.
 - Keys starting with `_` are comments. Any other key you add is kept.
 
 init never changes an entry that's already there and never removes one. A folder you deleted is
