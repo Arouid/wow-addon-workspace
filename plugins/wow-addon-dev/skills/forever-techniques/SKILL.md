@@ -14,9 +14,11 @@ technique has a status, and only `measured` means seen working in game:
 | **partly** | seen working in some conditions; the rest untested (said which) |
 | **declared** | in Blizzard's Forever source (`Gethe/wow-ui-source`, branch `forever`), not yet tried in game |
 | **candidate** | a new system that could carry it; to probe first (Mage Kit: Debug > Probing for secrets) |
+| **reported** | another addon's author says it's field-tested (e.g. EllesmereUI's comments); not seen by us yet |
 | **broken** | measured NOT to work: don't retry without a reason |
 
-Build 70245 unless said. Mage Kit's files are the working examples (`MageKit/<file>`).
+Build 70245 unless said. Mage Kit's files are the working examples (`MageKit/<file>`). Section 6
+summarizes what EllesmereUI's source comments teach (`references/ellesmereui.md`).
 Promote an entry only after seeing it, and write the date.
 
 ## 1. Reading what the game hides
@@ -141,3 +143,16 @@ Promote an entry only after seeing it, and write the date.
 
 Run the probe out of combat, in combat, and near enemy players; move each line to its section with
 its status and date.
+
+## 6. Learned from EllesmereUI
+
+EllesmereUI (Ellesmere, v9.4, "all rights reserved") is the most complete Forever UI suite and its
+comments explain a lot. `references/ellesmereui.md` summarizes them **in our own words** with the
+file of each; read the original there. The headlines:
+- **Engine aura containers** (`CreateFrame("AuraContainer")`): the engine draws auras from FILTERS,
+  secret or not, in instances too: the way to show auras where Lua can't read them.
+- **Conditional visuals with no reading**: nested containers make a tint appear only while every
+  listed debuff is present (AND logic, engine-side).
+- **Secret sinks and never-secret signals**: which setters take secrets, which values never turn secret.
+- **Threat is readable on Forever**; UnitIsUnit under identity restriction; the 12.1 script watchdog.
+
