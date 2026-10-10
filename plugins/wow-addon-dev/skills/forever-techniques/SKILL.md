@@ -188,3 +188,11 @@ addons (their AGENTS.md refuses AI use). Headlines:
 - The combat log can't even be registered on Forever; nameplates scale with distance; Frost Nova
   freezes short of 10 yd.
 
+## 8. Hooking Blizzard's Cooldown Manager
+
+`references/cooldown-manager.md`: the four viewers, why hook them (Blizzard's untainted items see
+secrets and raise engine edges: available, charge gained, aura applied/removed, pandemic, on
+cooldown, even with no alert set), and the ten rules (post-hook per frame at acquire, never write
+onto Blizzard frames, pooled frames move, read state from the item, tiny hook bodies, the player's
+layout is theirs...).
+
