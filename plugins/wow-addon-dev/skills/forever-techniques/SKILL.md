@@ -416,6 +416,9 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   **auras are unreadable in combat for every unit** (index reads throw, by-name returns nil),
   Fortitude 3600 s, secure snippets broken, addon CVars not persisted, talents unreadable.
 - `references/buffwarden.md` (MIT): a missing-buff helper: never ask while auras are secret ("unknown", never "missing"), weapon enchants readable mid-fight, OWN talents readable through `C_Traits`, `UnitInRange` secret (let the click decide range).
+- `references/usefulplates.md` (GPL-3.0: ideas only): "next swing" abilities lie about range (Heroic
+  Strike true at 30 yd); hunter range ladder with items; absorbs secret → StatusBar overlay; combo
+  points live on the target; the client loads a `_Mainline.toc` on Forever when both exist.
 - Not used: Arc Auras (its license forbids reusing even its methods), ElvUI (its AGENTS.md forbids AI reference use), Bleakfiber's addons (private study only), Threat Plates (its source
   `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).

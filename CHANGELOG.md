@@ -4,6 +4,12 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.16 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: Useful Plates and Tooltips (`usefulplates.md`, GPL-3.0, ideas only): the
+  next-swing range trap, item range ladder, absorbs drawn by a StatusBar, combo points on the target;
+  KSmartDebuff's per-button dispel containers re-filtered in place (own words).
+
 ## wow-addon-dev 0.5.15 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: BuffWarden (`buffwarden.md`, MIT): never ask for auras while secret, weapon
