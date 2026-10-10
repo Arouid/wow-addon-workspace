@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.4 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: TargetedSpells (`references/targetedspells.md`, GPL: ideas only): "is this
+  cast aimed at me" with `PlayerIsSpellTarget`, AND of two secret booleans through nested
+  `SetAlphaFromBoolean`, cast-ID pairing, 4-unit event registration, and why
+  `nameplateShowOffscreen` matters for off-camera casts.
+
 ## wow-addon-dev 0.5.3 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: Enhance QoL's Forever build (`references/enhanceqol.md`, own words):

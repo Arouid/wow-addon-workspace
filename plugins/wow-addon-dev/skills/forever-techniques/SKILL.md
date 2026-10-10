@@ -98,6 +98,11 @@ build on it.
 - `region:SetAlphaFromBoolean(secretBool, alphaIfTrue, alphaIfFalse)`: **measured** (range icons
   greying out of range inside a battleground, 2026-10-07). Same trick: the TARGETING YOU mark
   (`UnitIsUnit(nameplateN.."target", "player")` is secret ~85% of the time in a battleground).
+- **AND of two secret booleans**: `SetAlphaFromBoolean` accepts a SECRET alpha, so
+  `shown = C_CurveUtil.EvaluateColorValueFromBoolean(condA, 0, 1)` then
+  `frame:SetAlphaFromBoolean(condB, shown, 0)` shows only when both hold → **reported**
+  (TargetedSpells, `references/targetedspells.md`). `secretwrap(v)` makes a plain value secret so
+  one path serves both.
 - Any color, gradients: `C_CurveUtil.EvaluateColorFromBoolean`, color curves (`CreateColorCurve`,
   `AddPoint`, `Evaluate` on a secret x) → **candidate**.
 - Number curves on a duration object: a 2-point curve (0 → 1, 0.001 → 0) makes
@@ -172,6 +177,10 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
 - **Offscreen Nameplates** (`nameplateShowOffscreen`) is a player option on Forever
   (`Blizzard_SettingsDefinitions_Frame/Nameplates.lua:525`): if it keeps plates at the screen edge,
   plates stop vanishing when the camera turns → **declared**, to measure (`references/plater.md`).
+- **Is this cast aimed at ME?** `PlayerIsSpellTarget(unit)` → secret boolean for
+  `SetAlphaFromBoolean`; "has a target at all" = `UnitSpellTargetName(unit) ~= nil` (a secret is never
+  nil); `C_Spell.IsSpellImportant(id)` flags must-kick casts; pair start/stop by the never-secret
+  cast ID; `RegisterUnitEvent` takes at most 4 units → **declared** (`references/targetedspells.md`).
 - Casts: `UNIT_SPELLCAST_*` fire for target and nameplates in a battleground, spell ID secret,
   `UnitCastingInfo` secret while casting → "someone casts" is knowable → **measured** (KICK alert).
 - Threat score from readable things only (targeting you, vanished nearby, can stealth, level,
@@ -275,4 +284,11 @@ notes). Headlines:
 - Damage meter on Forever: secret in combat, walkable tables, per-spell data after.
 - It and Cooldown Manager Centered DISAGREE on creating containers in combat: follow the stricter
   rule until measured.
+
+## 11. Learned from TargetedSpells
+
+`references/targetedspells.md` (GPL-3.0: ideas, not code): enemy casts on nameplates and whom they
+target, entirely on secret values: `PlayerIsSpellTarget`, nil-test of `UnitSpellTargetName`,
+`IsSpellImportant`, nested `SetAlphaFromBoolean` as AND, cast-ID pairing, 4-unit event shards, and
+`nameplateShowOffscreen` (off-camera casts have no duration without it).
 
