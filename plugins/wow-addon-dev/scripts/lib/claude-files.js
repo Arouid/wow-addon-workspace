@@ -1,8 +1,8 @@
 'use strict';
 // The two Claude Code files init touches: a marked section of CLAUDE.md, and .claude/settings.json.
 
-const MARKETPLACE = 'wow-addon-workspace';
-const MARKETPLACE_REPO = 'Wafhi3n/wow-addon-workspace';
+const MARKETPLACE = 'finess-wow-addons';   // Finess's copy (from Wafhien's wow-addon-workspace)
+const MARKETPLACE_REPO = 'Arouid/wow-addon-workspace';
 const PLUGIN_KEY = `wow-addon-dev@${MARKETPLACE}`;
 
 // The section is found by the tag alone, so a later version can reword the rest of the line.
