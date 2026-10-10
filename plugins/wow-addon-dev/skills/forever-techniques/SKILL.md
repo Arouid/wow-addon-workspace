@@ -105,6 +105,11 @@ build on it.
 - `region:SetAlphaFromBoolean(secretBool, alphaIfTrue, alphaIfFalse)`: **measured** (range icons
   greying out of range inside a battleground, 2026-10-07). Same trick: the TARGETING YOU mark
   (`UnitIsUnit(nameplateN.."target", "player")` is secret ~85% of the time in a battleground).
+- **Text and speech from secrets**: build the format string from plain pieces, then ONE
+  `string.format`/`SetFormattedText` with the secret values (never concatenate the result); a
+  secret text's `GetStringWidth/Height` are secret and `SetSize` rejects them (size from known
+  numbers); `C_VoiceChat.SpeakText` accepts secret text → a secret spell name can be SPOKEN →
+  **declared** + **reported** (Northern Sky, `references/northernsky.md`).
 - **Health thresholds, never read**: `UnitHealthPercent(unit, true, curve)` returns the curve's
   value at the unit's health % (secret) → `SetAlpha`: a step at 20 % = an execute mark; not on
   players in PvP → **declared** + **reported** (BetterBlizzPlates, `references/betterblizzplates.md`).
@@ -345,6 +350,11 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   set a CVar (`debugstack` can be secret).
 - `references/weaponswingtimer.md` (GPL): `C_SwingTimer` (`PLAYER_SWING`, range by swing type and
   its event), enemy swing cadence from `UNIT_COMBAT` on yourself.
+- `references/betterblizzplates.md` also covers BetterBlizzFrames: Blizzard's target / focus frames
+  use aura containers on Forever (`SetMaxBuffs`, `SetMaxDebuffs`), hook arguments can be secret,
+  function attributes set by addons run tainted (use `"togglemenu"`).
+- `references/northernsky.md` (all rights reserved): secret numbers in one format call, secret text
+  sizes, speaking secret text.
 - Not used: Threat Plates (its source `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
 

@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.8 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: BetterBlizzFrames (in `betterblizzplates.md`) and Northern Sky Raid Tools
+  (`northernsky.md`): Blizzard's unit frames run aura containers on Forever, secret hook arguments,
+  tainted function attributes, formatting secret numbers in one call, secret text sizes, and
+  `C_VoiceChat.SpeakText` taking secret text.
+
 ## wow-addon-dev 0.5.7 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: What's Training? (`whatstraining.md`), BetterBlizzPlates + AdvancedInterfaceOptions
