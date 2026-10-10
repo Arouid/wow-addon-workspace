@@ -21,6 +21,26 @@ Build 70245 unless said. Mage Kit's files are the working examples (`MageKit/<fi
 summarizes what EllesmereUI's source comments teach (`references/forevercoreskill.md`).
 Promote an entry only after seeing it, and write the date.
 
+## 0. The goal: deriving conditionals
+
+Forever hides values so addons can't BRANCH on them (`if hidden then ...` throws). Every technique
+here is one of five ways to still get a decision. Classify a new find by which one it is:
+
+| Way | Lua gets a usable `if`? | Examples (sections below) |
+|---|---|---|
+| **A. A readable side channel**: a related value the game leaves plain | yes | aura instance-ID lists (`#ids`), your own cast events, threat values, cooldown `isActive`, `C_Secrets.Should...` predicates, frame identity, Loss of Control `priority` |
+| **B. The event itself**: THAT something happened, even with a hidden payload | yes ("something changed") | enemy `UNIT_SPELLCAST_*` (KICK alert), `UNIT_AURA`, nameplate added/removed (stealth check) |
+| **C. Geometry and time**: combine yes/no answers with what you know (your position, the clock) | yes | range ladder, locator (trilateration), flip timing |
+| **D. The engine decides, Lua never knows**: the condition only drives a visual | no, the screen does | `SetAlphaFromBoolean`, color from booleans/curves, engine aura containers, nested-container AND tints |
+| **E. Ask before reading**: is this going to be hidden here? | yes (switch strategy) | `C_Secrets.Should...BeSecret` |
+
+Notes: D is the sanctioned path Blizzard built for hidden values and the most future-proof. A-C rely on
+what the game currently leaves readable; Blizzard has tightened such gaps between builds, so keep
+each with its date and re-check after patches (`/wow-addon-dev:patch-diff`, Mage Kit's probes).
+Reading an engine widget back (its size, visibility) to recover a hidden value is blocked by design
+(aura buttons deny tainted access while auras are secret; containers forbid layout scripts): don't
+build on it.
+
 ## 1. Reading what the game hides
 
 ### Aura filters instead of names or indexes
