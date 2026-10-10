@@ -368,6 +368,12 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   WeakAuras for Forever that works in combat** — the closest thing to Context — with geometry gates,
   learned aura IDs, DoT durations from descriptions, plain `IsSpellInRange` in combat, secret power
   even out of combat, and a probe addon (ForeverDevInfo) worth mirroring in Mage Kit.
+- `references/foreverauras.md` (GPL-2.0, reusable in Context): a second WeakAuras for Forever with
+  the same gates, plus Total Duration gates, centred rows from half-size "shadow" containers,
+  stand-ins in mixed groups, and a CC BY 4.0 spell-rank source (talentsforever.com).
+- `references/kethodoc.md` (MIT): dumping the live client's API, events and CVars; **CVars that
+  force addon restrictions** (`addonCombatRestrictionsForced`, `addonPvPMatchRestrictionsForced`...):
+  if players can set them, BG / instance secrecy can be tested anywhere → **candidate**.
 - Not used: Threat Plates (its source `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
 
