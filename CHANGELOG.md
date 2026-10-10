@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.5 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: MiniAuras (`references/miniauras.md`, own words): every aura filter token
+  with `!` negation (from Forever's `AuraUtil`), disjoint categories, out-of-range and visibility
+  caveats, event-less unit states to poll, kick detection on secret GUIDs, a spell-flag scan probe,
+  and a disagreement with Forever's source to measure.
+
 ## wow-addon-dev 0.5.4 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: TargetedSpells (`references/targetedspells.md`, GPL: ideas only): "is this

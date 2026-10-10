@@ -63,6 +63,13 @@ build on it.
   B7, B10, C1-C9, D7). Unknown: whether a restricted read returns `{}` (which would make "empty =
   missing" lie) or throws. Pause the reading 3 s after a refusal (calls can THROW).
 - Files: `Curses.lua`, `Buffs.lua` (NoGivableBuff), `BuffWindow.lua` (ExactTime), `PlateAuras.lua`.
+- **All the tokens** (`AuraUtil.AuraFilters`, **declared**): also `RAID_PLAYER_DISPELLABLE` (someone in
+  your group can dispel), `DISPELLABLE` (anyone can), `RAID_IN_COMBAT`, `IMPORTANT`,
+  `EXTERNAL_DEFENSIVE`, `CANCELABLE`, `INCLUDE_NAME_PLATE_ONLY`; a leading **`!` negates**
+  (`HELPFUL|EXTERNAL_DEFENSIVE|!BIG_DEFENSIVE`). Tokens AND together, never OR: one group per
+  category, made disjoint with `!`. Caveats (**reported**, MiniAuras, `references/miniauras.md`):
+  flag tokens misbehave on OUT-OF-RANGE units; `PLAYER` can't attribute casters on group members
+  outside your visible world (gate on `UnitIsVisible`); disarms carry no flag at all.
 - **Test ONE aura against any filter**: `C_UnitAuras.IsAuraFilteredOutByInstanceID(unit,
   auraInstanceID, filter)` returns a plain boolean, no secrecy flag in the docs → **declared**
   (`references/enhanceqol.md`): classify each instance ID from `GetUnitAuraInstanceIDs` (mine?
@@ -291,4 +298,12 @@ notes). Headlines:
 target, entirely on secret values: `PlayerIsSpellTarget`, nil-test of `UnitSpellTargetName`,
 `IsSpellImportant`, nested `SetAlphaFromBoolean` as AND, cast-ID pairing, 4-unit event shards, and
 `nameplateShowOffscreen` (off-camera casts have no duration without it).
+
+## 12. Learned from MiniAuras
+
+`references/miniauras.md` ("all rights reserved", own words): the full filter-token vocabulary with
+`!` negation and MiniAuras' rules for it; four unit states with no event that change filter
+results (poll them); kicked-vs-ended from the interrupter GUID's nil-ness, with the kicker's name
+and class from the secret GUID; a dev probe that scans every spell ID for the game's CC / Important
+flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` does: probe it.
 
