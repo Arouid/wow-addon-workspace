@@ -4,6 +4,12 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.19 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: joipov's overlays (MIT): a secrets helper (`issecretvalue` vs
+  `canaccessvalue`, `issecrettable` / `canaccesstable`), spell cost entries (`cost` 0 vs `minCost`),
+  nil-never-arms rule; Nerve skipped (no code published).
+
 ## wow-addon-dev 0.5.18 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: Wanted: Dead or... Dead (`wanteddeadordead.md`, MIT): world PvP enemy
