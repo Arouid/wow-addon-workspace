@@ -63,6 +63,10 @@ build on it.
   B7, B10, C1-C9, D7). Unknown: whether a restricted read returns `{}` (which would make "empty =
   missing" lie) or throws. Pause the reading 3 s after a refusal (calls can THROW).
 - Files: `Curses.lua`, `Buffs.lua` (NoGivableBuff), `BuffWindow.lua` (ExactTime), `PlateAuras.lua`.
+- **Engine containers have an identity rule**: their `includeSpellIDs` / `excludeSpellIDs` are
+  ignored for debuffs on friendly units and buffs on enemies (unless the spell is never-secret), and
+  a group with `includeSpellIDs` then shows NOTHING. Dispel-type filters (`includeDispelTypes`) still
+  work there → **declared** (`Blizzard_AuraContainerUtil.lua:51-86`; `references/plater.md`).
 
 ### Engine-drawn timers (work on secret numbers)
 - **Problem**: durations and cooldowns are secret in combat; Lua can't do `expiration - GetTime()`.
@@ -153,6 +157,9 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
   switched off: ignore → **partly** (a rogue got the STEALTH tag in Ratchet; false alarms untested).
   Enemy cast spell IDs are secret in battlegrounds; the plate check doesn't need them. File:
   `Enemies.lua`.
+- **Offscreen Nameplates** (`nameplateShowOffscreen`) is a player option on Forever
+  (`Blizzard_SettingsDefinitions_Frame/Nameplates.lua:525`): if it keeps plates at the screen edge,
+  plates stop vanishing when the camera turns → **declared**, to measure (`references/plater.md`).
 - Casts: `UNIT_SPELLCAST_*` fire for target and nameplates in a battleground, spell ID secret,
   `UnitCastingInfo` secret while casting → "someone casts" is knowable → **measured** (KICK alert).
 - Threat score from readable things only (targeting you, vanished nearby, can stealth, level,
@@ -232,4 +239,15 @@ layout is theirs...).
 - Edges from hooks: buff active/inactive, pandemic, ready flash, proc glow, action key presses.
 - Frame identity → `cooldownID` → static info stays readable while the live spell ID is secret.
 - Per-file `[AllowLoadGameType camelot]` tags let one .toc serve Retail and Forever.
+
+## 9. Learned from Plater (and Blizzard's aura container code)
+
+`references/plater.md`: Plater Nameplates (master 2026-10-10, `## Interface-Camelot: 16001`, "all
+rights reserved", own-words notes), plus Blizzard's own container code it led to. Headlines:
+- **Pre-create containers out of combat and lend them** to plates (`SetParent`), disabled when idle.
+- **OR logic engine-side**: two groups, the main one excluding what the include group shows.
+- The full candidate-filter list, sort methods, the processing policy, and `AddDispelTypeTexture`
+  (a border the engine colors by dispel type).
+- Detect features, not versions: `C_XMLUtil.GetTemplateInfo("CustomAuraContainerTemplate")`.
+- `C_CurveUtil.EvaluateColorValueFromBoolean` per color channel; secret "is target/focus" → false.
 

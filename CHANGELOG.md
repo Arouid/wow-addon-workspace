@@ -4,6 +4,15 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.2 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: Plater Nameplates on Forever (`references/plater.md`, own words): containers
+  pre-created and lent to nameplates, OR logic as two groups, per-client `.toc` interface lines,
+  feature detection by template. From Blizzard's container code: every candidate filter, the
+  identity rule (spell-ID filters ignored, and include-groups emptied, for friendly debuffs and
+  enemy buffs), sort methods, the processing policy, dispel-type borders. From Forever's settings:
+  the Offscreen Nameplates option.
+
 ## wow-addon-dev 0.5.1 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques` grows from other addons' code, license-checked and summarized in our own
