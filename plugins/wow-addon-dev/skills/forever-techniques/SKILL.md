@@ -18,7 +18,7 @@ technique has a status, and only `measured` means seen working in game:
 | **broken** | measured NOT to work: don't retry without a reason |
 
 Build 70245 unless said. Mage Kit's files are the working examples (`MageKit/<file>`). Section 6
-summarizes what EllesmereUI's source comments teach (`references/ellesmereui.md`).
+summarizes what EllesmereUI's source comments teach (`references/forevercoreskill.md`).
 Promote an entry only after seeing it, and write the date.
 
 ## 1. Reading what the game hides
@@ -147,7 +147,7 @@ its status and date.
 ## 6. Learned from EllesmereUI
 
 EllesmereUI (Ellesmere, v9.4, "all rights reserved") is the most complete Forever UI suite and its
-comments explain a lot. `references/ellesmereui.md` summarizes them **in our own words** with the
+comments explain a lot. `references/forevercoreskill.md` summarizes them **in our own words** with the
 file of each; read the original there. The headlines:
 - **Engine aura containers** (`CreateFrame("AuraContainer")`): the engine draws auras from FILTERS,
   secret or not, in instances too: the way to show auras where Lua can't read them.
