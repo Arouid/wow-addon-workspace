@@ -90,7 +90,10 @@ build on it.
   secret every read by index, slot or **instance ID errors**, and `UNIT_AURA`'s payload is all secret;
   only reads by identifier survive (`GetUnitAuraBySpellID`, `GetAuraDataBySpellName`: data for
   never-secret spells, nothing for others) → measure this and `GetUnitAuraInstanceIDs` in combat
-  before relying on either (`references/tellmewhen.md`; Mage Kit test 14).
+  before relying on either (`references/tellmewhen.md`; Mage Kit test 14). **Priestly measured it**
+  (70009, 2026-09-25, player / target / party1, three runs): in combat every index read THROWS for
+  every unit, and by-name lookups silently return nil → **reported (measured by another author)**;
+  buff state in combat must come from a cache learned out of combat (`references/priestly-magely.md`).
 - **Engine containers have an identity rule**: their `includeSpellIDs` / `excludeSpellIDs` are
   ignored for debuffs on friendly units and buffs on enemies (unless the spell is never-secret), and
   a group with `includeSpellIDs` then shows NOTHING. Dispel-type filters (`includeDispelTypes`) still
@@ -251,6 +254,10 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
   `PLAYER_REGEN_DISABLED`. `CLICK <Button>:LeftButton` key bindings work → **measured**
   (Buff next, 2026-10-04).
 - A string from the network never goes into `macrotext` unsanitized (a newline adds a command).
+- **Secure snippets are broken** on Forever (`loadstring_untainted` missing): no `SecureHandler*`,
+  no state drivers; plain `SecureActionButtonTemplate` attributes work → **reported** (Priestly,
+  measured 70009). CVars an addon writes didn't survive a full client exit (69977): `/reload` proves
+  breakage, never persistence.
 - **Before lockdown, officially**: `ADDON_RESTRICTION_STATE_CHANGED (type, state)` with state
   `Activating` (1) fires while a restriction is about to be enforced; enforcement waits for the end
   of that dispatch. Types: 0 Combat, 1 Encounter, 2 ChallengeMode, 3 PvPMatch, 4 Map, 5 Chat (addon
@@ -405,6 +412,9 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   `UNIT_AURA`), the access stamp that blocks EVERY call on aura buttons, recycling groups / slots by
   index, rule-formatted secret timers, a secrecy panel telling users what works in combat; Forever
   has no `UNIT_HEALTH_FREQUENT`.
+- `references/priestly-magely.md` (MIT): two buff managers with probes and dated measurements:
+  **auras are unreadable in combat for every unit** (index reads throw, by-name returns nil),
+  Fortitude 3600 s, secure snippets broken, addon CVars not persisted, talents unreadable.
 - Not used: Arc Auras (its license forbids reusing even its methods), Threat Plates (its source
   `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).

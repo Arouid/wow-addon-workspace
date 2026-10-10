@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.14 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: Priestly / Magely / LibGroupBuffs (`priestly-magely.md`, MIT): measured on
+  70009, auras are unreadable in combat for every unit (index reads throw, by-name returns nil);
+  Fortitude 3600 s; secure snippets broken; addon CVars not persisted across a full exit; talents
+  unreadable. Cautions added where the catalog relied on aura reads in combat or state drivers.
+
 ## wow-addon-dev 0.5.13 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: the full list of 27 `C_Secrets` predicates (way E) from Forever's docs;
