@@ -4,6 +4,14 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.3 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: Enhance QoL's Forever build (`references/enhanceqol.md`, own words):
+  engine-run aura animations, the aura button's full display kit (caster name, pandemic region and
+  animations...), the per-aura filter test `IsAuraFilteredOutByInstanceID` (plain boolean),
+  "cooldown finished" as an `OnCooldownDone` edge from an invisible engine cooldown, the damage
+  meter on Forever, and where it disagrees with Cooldown Manager Centered (containers in combat).
+
 ## wow-addon-dev 0.5.2 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: Plater Nameplates on Forever (`references/plater.md`, own words): containers

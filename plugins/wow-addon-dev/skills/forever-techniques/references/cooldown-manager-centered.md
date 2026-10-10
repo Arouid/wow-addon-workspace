@@ -91,7 +91,9 @@ watching `UnitAffectingCombat`. During that dispatch, `IsAddOnRestrictionActive`
    it to 0 when nothing matches; chain the containers with anchors. (`CustomAuraProvider.lua:338-341`)
 9. **No creation in combat**: building a container or slot in combat, or changing its filters,
    leaves a partial init that taints later template loads. In combat only alpha, `SetEnabled` and
-   `UpdateAllAuras`. (`auraTracking.lua:691-694`)
+   `UpdateAllAuras`. (`auraTracking.lua:691-694`) Enhance QoL says the opposite for the current build
+   (creation in combat allowed, only the addon load deferred): see `enhanceqol.md`; keep this
+   stricter rule until we measure it.
 10. **Target containers don't follow target changes**: on `PLAYER_TARGET_CHANGED`, and the target's
     `UNIT_FACTION` / `UNIT_TARGETABLE_CHANGED`, call `SetEnabled` + `UpdateAllAuras`.
     (`auraTracking.lua:824-838`)

@@ -63,6 +63,10 @@ build on it.
   B7, B10, C1-C9, D7). Unknown: whether a restricted read returns `{}` (which would make "empty =
   missing" lie) or throws. Pause the reading 3 s after a refusal (calls can THROW).
 - Files: `Curses.lua`, `Buffs.lua` (NoGivableBuff), `BuffWindow.lua` (ExactTime), `PlateAuras.lua`.
+- **Test ONE aura against any filter**: `C_UnitAuras.IsAuraFilteredOutByInstanceID(unit,
+  auraInstanceID, filter)` returns a plain boolean, no secrecy flag in the docs → **declared**
+  (`references/enhanceqol.md`): classify each instance ID from `GetUnitAuraInstanceIDs` (mine?
+  dispellable? CC?) instead of only counting lists.
 - **Engine containers have an identity rule**: their `includeSpellIDs` / `excludeSpellIDs` are
   ignored for debuffs on friendly units and buffs on enemies (unless the spell is never-secret), and
   a group with `includeSpellIDs` then shows NOTHING. Dispel-type filters (`includeDispelTypes`) still
@@ -81,6 +85,14 @@ build on it.
     `b = C_DurationUtil.CreateDurationTextBinding(); b:SetToDefaults(); b:SetFontString(fs);
     b:SetDuration(d); b:SetEnabled(true)` (skip it when `d:IsZero()`).
 - Status: cooldown objects **measured**; aura durations, cast durations, text bindings **declared**.
+- **An engine timer that raises an edge**: an invisible `Cooldown` frame (alpha 0, shown) fed
+  `C_Spell.GetSpellCooldownDuration(spell, true)` (true = ignore GCD) fires `OnCooldownDone` when the
+  hidden cooldown ends: "spell ready" as an event, nothing read → **reported** (EnhanceQoL's
+  Cooldown Pulse).
+- **Aura buttons are a full display kit**: icon, timer as swipe/text/bar, stacks as text/bar,
+  dispel-type color/text, spell name, **caster name**, a region shown only in the pandemic window,
+  and YOUR animation groups played on aura shown / pandemic enter-active-leave → **declared**
+  (`Blizzard_CustomAuraButton.lua`; table in `references/enhanceqol.md`).
 
 ### Visibility and color from a secret boolean
 - `region:SetAlphaFromBoolean(secretBool, alphaIfTrue, alphaIfFalse)`: **measured** (range icons
@@ -190,7 +202,7 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
 | `CreateFrame("UnitPositionFrame")` + `AddUnit(token, ...)` | an **engine-drawn radar**: positions the engine knows, addons never get | can an addon create one? does it take enemy nameplate tokens? |
 | `C_CombatAudioAlert.SpeakText(text, category, overlap)` | spoken callouts | does it speak (needs the game's combat audio alerts on)? |
 | `C_LossOfControl.GetActiveLossOfControlDataCountByUnit/ByUnit/Duration` | CC on ANY unit, with a duration object | readable on a target? in PvP? |
-| `C_DamageMeter` | per-fight damage (secret in combat, readable after?) | a mana coach (damage per mana per rank) |
+| `C_DamageMeter` | per-fight damage: secret in combat (declared), tables walkable, per-spell data copyable after (EnhanceQoL) | a mana coach (damage per mana per rank) |
 | `C_Secrets.Should...BeSecret` / `Get...Secrecy` | know BEFORE reading if it'll be hidden | the map of what's hidden where |
 | `C_CurveUtil` color curves | engine colors from secret numbers | does Evaluate work tainted? |
 | `C_AssistedCombat.GetNextCastSpell` | Blizzard's rotation hint | available on Forever? (Blizzard's `AssistedCombatManager.lua` loads only on `mainline`: expect nothing) |
@@ -250,4 +262,17 @@ rights reserved", own-words notes), plus Blizzard's own container code it led to
   (a border the engine colors by dispel type).
 - Detect features, not versions: `C_XMLUtil.GetTemplateInfo("CustomAuraContainerTemplate")`.
 - `C_CurveUtil.EvaluateColorValueFromBoolean` per color channel; secret "is target/focus" → false.
+
+## 10. Learned from Enhance QoL
+
+`references/enhanceqol.md`: Enhance QoL 13.9.0's Forever-only build ("all rights reserved", own-words
+notes). Headlines:
+- **Engine-run aura animations**: hand your animation groups to an aura button; Blizzard plays them
+  when the aura shows or enters its pandemic window. Plus the button's full display kit.
+- **Per-aura filter test** with a plain boolean; restriction state with its Activating step;
+  `UNIT_AURA_BLOCKED`; `ShouldSpellAuraBeSecret`.
+- **"Cooldown finished" as an event** from an invisible engine cooldown.
+- Damage meter on Forever: secret in combat, walkable tables, per-spell data after.
+- It and Cooldown Manager Centered DISAGREE on creating containers in combat: follow the stricter
+  rule until measured.
 
