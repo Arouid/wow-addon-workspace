@@ -4,6 +4,14 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.6 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: four open-license addons (`decursive.md`, `grid2.md`, `threatclassic2.md`,
+  `battlegroundenemies.md`): engine-side dispel coloring of unit squares with every dispel-texture
+  option, color curves on durations, secret alpha propagation, threat and the melee-range ratio,
+  the battleground scoreboard as a never-secret roster, and `UnitName`'s PvP exemption (which
+  conflicts with Mage Kit's measurement: to re-measure).
+
 ## wow-addon-dev 0.5.5 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: MiniAuras (`references/miniauras.md`, own words): every aura filter token

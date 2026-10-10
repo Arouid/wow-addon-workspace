@@ -140,6 +140,13 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
   targets a stranger → **measured** (Enemies nearby click-to-target, 2026-10-08).
 - Open world: enemy players' class and faction **readable** (Ratchet, 2026-10-08); battleground: class
   secret 21/21, names secret on nameplates in combat → **measured**.
+- **Conflict to re-measure**: the docs give `UnitName` its own predicate, secret "except in PvP when the
+  queried unit is a player" (and on Forever `GetUnitName` = `UnitName` + surname); `UnitFullName`,
+  `UnitGUID` stay strict → **declared**, and BattleGroundEnemiesFixed relies on it. Our 14/14 above
+  says otherwise: probe `UnitName(nameplateN)` itself (`references/battlegroundenemies.md`).
+- **The scoreboard is a readable roster**: `C_PvP.GetScoreInfo` rows keep `name`, `classToken`,
+  `className`, `raceName`, `faction` NeverSecret during a match → **declared**. Never call
+  `SetBattlefieldScoreFaction` needlessly from addon code (taints Blizzard's rebuild).
 - PvP realm territory: Ratchet is in Horde territory: Alliance there are flagged, a Horde player
   isn't; `UnitCanAttack(enemy, "player")` false then (they can't attack you), `UnitCanAttack("player",
   enemy)` true → **measured** 2026-10-08. Re-read it often: either side can flag.
@@ -167,6 +174,9 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
   answers (a disagreement > 0.6 yd = it moved: drop it). Mirror solutions on a straight line: show a
   distance only while both agree → **measured**: read 7.0 exactly at the 10 yd flip, 4.3 in melee
   (2026-10-08). Not in instances (no position). File: `Locator.lua`.
+- **Melee range from threat**: pull thresholds are 110 % in melee, 130 % at range, so
+  `rawPercent / scaledPercent > 1.2` from `UnitDetailedThreatSituation(unit, "target")` = that unit is
+  out of the mob's melee range → **reported** (ThreatClassic2, `references/threatclassic2.md`).
 - **Facing**: `GetPlayerFacing()` has no secret flag; its sense and offset in position coordinates
   are learned from running (direction moved vs faced) → **declared** (Blink planning,
   `BlinkPlan.lua`).
@@ -306,4 +316,19 @@ target, entirely on secret values: `PlayerIsSpellTarget`, nil-test of `UnitSpell
 results (poll them); kicked-vs-ended from the interrupter GUID's nil-ness, with the kicker's name
 and class from the secret GUID; a dev probe that scans every spell ID for the game's CC / Important
 flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` does: probe it.
+
+## 13. Learned from the open-license addons
+
+- `references/decursive.md` (GPL, ideas only): **a unit's square colored by its worst dispellable
+  debuff, engine-side**: one container per unit, one `"HARMFUL"` slot per cure priority with
+  `includeDispelTypes`, a white texture through `AddDispelTypeTexture` (style PreserveAsset, a
+  `customDispelColorMap` / step color curve). Plus: never say "nothing to cure" while auras are
+  secret; a secret image via a `|T...|t` text escape; aura sounds need exact public spell IDs.
+- `references/grid2.md` (zlib): color a timer by remaining time with a color curve on the duration
+  object; an alpha set from a secret makes every child's alpha secret (breaks glow libraries).
+- `references/threatclassic2.md` (MIT): threat on `"target"` readable, `targettarget` secret; the
+  melee-range ratio; encounter-name filters when unit names are secret.
+- `references/battlegroundenemies.md` (GPL): the scoreboard roster, `UnitName`'s PvP exemption
+  (conflicts with our measurement), `UnitIsEnemy` secret → `UnitFactionGroup` / `UnitIsFriend`, no DR
+  in battlegrounds.
 
