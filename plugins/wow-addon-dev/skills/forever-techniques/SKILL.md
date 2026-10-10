@@ -415,7 +415,8 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - `references/priestly-magely.md` (MIT): two buff managers with probes and dated measurements:
   **auras are unreadable in combat for every unit** (index reads throw, by-name returns nil),
   Fortitude 3600 s, secure snippets broken, addon CVars not persisted, talents unreadable.
-- Not used: Arc Auras (its license forbids reusing even its methods), Threat Plates (its source
+- `references/buffwarden.md` (MIT): a missing-buff helper: never ask while auras are secret ("unknown", never "missing"), weapon enchants readable mid-fight, OWN talents readable through `C_Traits`, `UnitInRange` secret (let the click decide range).
+- Not used: Arc Auras (its license forbids reusing even its methods), ElvUI (its AGENTS.md forbids AI reference use), Bleakfiber's addons (private study only), Threat Plates (its source
   `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
 

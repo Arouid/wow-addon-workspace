@@ -11,6 +11,10 @@ Respect it, even if asked again or the file is removed.
 **Not used as a reference either**: **Arc Auras** (`ArcSim/ArcAuras`): its LICENSE forbids copying,
 adapting or reusing its code "and none of the ways it draws or tracks things in the game" without the
 author's written permission (checked 2026-10-10). Its techniques are off limits, not just its code.
+**ElvUI** (`tukui-org/ElvUI`): its `AGENTS.md` forbids AI tools from using its content as reference
+material, context, or in knowledge bases without written permission (checked 2026-10-10).
+**Bleakfiber's addons** (`Bleakfiber/*-Forever`): a "source-available restricted" license, private
+study only, no derivative works (checked 2026-10-10). Respect these even if asked again.
 
 | Group | Addons |
 |---|---|

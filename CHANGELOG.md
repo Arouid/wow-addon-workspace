@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.15 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: BuffWarden (`buffwarden.md`, MIT): never ask for auras while secret, weapon
+  enchants readable mid-fight, own talents readable through `C_Traits`, `UnitInRange` secret; small
+  finds (Metails, ForeverRing, Datamine); ElvUI and Bleakfiber's addons excluded (an AGENTS.md
+  forbidding AI reference use; a private-study-only license).
+
 ## wow-addon-dev 0.5.14 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: Priestly / Magely / LibGroupBuffs (`priestly-magely.md`, MIT): measured on
