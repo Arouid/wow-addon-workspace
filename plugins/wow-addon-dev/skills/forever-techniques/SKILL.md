@@ -128,7 +128,11 @@ build on it.
   (TargetedSpells, `references/targetedspells.md`). `secretwrap(v)` makes a plain value secret so
   one path serves both.
 - Any color, gradients: `C_CurveUtil.EvaluateColorFromBoolean`, color curves (`CreateColorCurve`,
-  `AddPoint`, `Evaluate` on a secret x) → **candidate**.
+  `AddPoint`) → **candidate**. But **`curve:Evaluate(secret)` from addon code ERRORS**, even out of
+  combat (DoesItDie, 2026-09-24, **reported broken**): secrets reach a curve only through Blizzard
+  functions that take it (`UnitHealthPercent`, `EvaluateRemainingDuration`, `GetAuraDispelTypeColor`).
+- **A ≥ B with two secrets**: a long StatusBar (max = B, value = A) in a small clip: whatever rides the
+  fill's end shows only at 100 % → **reported** (DoesItDie's kill icon, `references/doesitdie.md`).
 - Number curves on a duration object: a 2-point curve (0 → 1, 0.001 → 0) makes
   `duration:EvaluateRemainingDuration(curve)` "1 when ready, else 0" for `SetAlpha` / `SetDesaturation`
   → **reported** (Cooldown Manager Centered, `references/cooldown-manager-centered.md`).
@@ -374,6 +378,12 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
 - `references/kethodoc.md` (MIT): dumping the live client's API, events and CVars; **CVars that
   force addon restrictions** (`addonCombatRestrictionsForced`, `addonPvPMatchRestrictionsForced`...):
   if players can set them, BG / instance secrecy can be tested anywhere → **candidate**.
-- Not used: Threat Plates (its source `.toc` has no Forever line), HealBot and OPie (no public
+- `references/spellactivationoverlay.md` (MIT): proc alerts as engine aura slots built from your
+  OWN XML template (`templateNames`), chosen per spell by `C_Secrets.GetSpellAuraSecrecy`.
+- `references/doesitdie.md` (MIT): an author's verified table of hidden vs readable values (target
+  health secret even out of combat, combo points secret, `UNIT_COMBAT` amounts readable),
+  StatusBar comparisons, `curve:Evaluate(secret)` erroring; plus TrufiGCD and tullaRange.
+- Not used: Arc Auras (its license forbids reusing even its methods), Threat Plates (its source
+  `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
 

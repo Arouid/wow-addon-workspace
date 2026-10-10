@@ -8,6 +8,10 @@ in our own words with the file to see. EllesmereUI has its own file (`forevercor
 Baganator, Chattynator, Syndicator) ships an `AGENTS.md` refusing use as a reference by AI tools.
 Respect it, even if asked again or the file is removed.
 
+**Not used as a reference either**: **Arc Auras** (`ArcSim/ArcAuras`): its LICENSE forbids copying,
+adapting or reusing its code "and none of the ways it draws or tracks things in the game" without the
+author's written permission (checked 2026-10-10). Its techniques are off limits, not just its code.
+
 | Group | Addons |
 |---|---|
 | Open (MIT/GPL/BSD/Artistic): read, code reusable per license (GPL: ideas only for us) | RangeLens (MIT), Clicked (GPL), LFGForever (GPLv3), Consumable-Connoisseur (MIT), ClassicFishingCompanion (GPL), Carbonite (GPL), TinyTooltip - Remaster (MIT), WhisperMessenger (MIT), NiceDamage (MIT), AllTheThings (MIT), Atlas (GPLv2), Lootified (GPL-3.0), Immersion (Artistic 2.0), DropTheCheapestThing (BSD), Foundry-1.0 (MIT) |

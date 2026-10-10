@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.11 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: SpellActivationOverlay (`spellactivationoverlay.md`: proc art on engine aura
+  slots via `templateNames`), DoesItDie (`doesitdie.md`: comparing secret numbers with a StatusBar, a
+  verified hidden/readable table, `curve:Evaluate(secret)` erroring), TrufiGCD, tullaRange; Arc Auras
+  excluded (its license forbids reusing its methods).
+
 ## wow-addon-dev 0.5.10 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: ForeverAuras (`foreverauras.md`, GPL-2.0) and KethoDoc (`kethodoc.md`, MIT):
