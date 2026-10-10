@@ -176,3 +176,15 @@ file of each; read the original there. The headlines:
 - **Secret sinks and never-secret signals**: which setters take secrets, which values never turn secret.
 - **Threat is readable on Forever**; UnitIsUnit under identity restriction; the 12.1 script watchdog.
 
+## 7. Learned from other installed addons
+
+`references/addon-lessons.md`: every installed addon whose license allows reading (or reserves rights
+without objecting), license-checked 2026-10-10, summarized in our own words. Never read the plusmouse
+addons (their AGENTS.md refuses AI use). Headlines:
+- A SECRET spell ID still gives its icon and name (`C_Spell.GetSpellTexture` / `GetSpellName` take
+  secrets) and `UnitSpellTargetName` shows who a cast targets: display-only, works in battlegrounds.
+- `UnitAffectingCombat("player")` can flip before `InCombatLockdown()`: a last window for secure changes.
+- Secrets keep their Lua type; `..` takes them, `table.concat` throws; never store them in Blizzard tables.
+- The combat log can't even be registered on Forever; nameplates scale with distance; Frost Nova
+  freezes short of 10 yd.
+
