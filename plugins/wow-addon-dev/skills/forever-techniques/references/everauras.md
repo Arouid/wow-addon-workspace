@@ -4,8 +4,9 @@
 2026-10-09): a fork of M33kAuras / WeakAuras 2 rebuilt for Forever (alpha, interface 16001), plus a
 probing addon, **ForeverDevInfo** (`addons/ForeverDevInfo`, `.toc` 16001). Its own Forever code is in
 `tools/forever_files/` (the build downloads WeakAuras and patches it). **License**: GPL-2.0
-(`LICENSE`): read freely, **ideas, not code** — unless Context is released under a GPL-2.0-compatible
-license, which would let it reuse this code (Finess's call). Read on GitHub without downloading,
+(`LICENSE`, plain GPL v2 text, no "or later" notice: treat as GPL-2.0-only). **Context is
+GPL-2.0-or-later (Finess, 2026-10-10)**, so this code may be reused in Context with its notice and
+credit; for non-GPL addons (Mage Kit), ideas only. Read on GitHub without downloading,
 2026-10-10. The author dates many findings ("proven in game 2026-09-18", "measured 2026-10-06").
 **Status**: **reported** (the author's measurements) unless marked **declared**.
 
@@ -77,6 +78,6 @@ secret-sized edge shows or hides what's inside. Every logical operation below is
 - **Context**: this is the design. Mage procs and buffs as engine displays; "missing" via the 1 px
   container; "refresh soon" via the late clip; stacks via the stack bar; glows created in place and
   animated by the client; sounds via `AddAuraSound` with files; IDs learned out of combat.
-- **Context license**: if Context were GPL-2.0-or-later, EverAuras' Forever files could be reused
-  with credit instead of re-implemented. A decision for Finess.
+- **Context license**: decided GPL-2.0-or-later (2026-10-10): EverAuras' Forever files can be reused
+  in Context with credit instead of re-implemented.
 - **Mage Kit Debug**: add geometry-gate probes (NOT, time-left, stacks) like ForeverDevInfo's.
