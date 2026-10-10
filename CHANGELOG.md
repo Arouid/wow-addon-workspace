@@ -4,6 +4,14 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.7 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: What's Training? (`whatstraining.md`), BetterBlizzPlates + AdvancedInterfaceOptions
+  (`betterblizzplates.md`), WeaponSwingTimer (`weaponswingtimer.md`), Capping (in
+  `battlegroundenemies.md`): Forever trainer prices, health thresholds via `UnitHealthPercent` and a
+  curve, plate scale following the camera, `C_SwingTimer` by swing type (a possible wand / melee range
+  rung for mages), enemy swing cadence without the combat log.
+
 ## wow-addon-dev 0.5.6 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: four open-license addons (`decursive.md`, `grid2.md`, `threatclassic2.md`,

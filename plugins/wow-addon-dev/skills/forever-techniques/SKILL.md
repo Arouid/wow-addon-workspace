@@ -105,6 +105,9 @@ build on it.
 - `region:SetAlphaFromBoolean(secretBool, alphaIfTrue, alphaIfFalse)`: **measured** (range icons
   greying out of range inside a battleground, 2026-10-07). Same trick: the TARGETING YOU mark
   (`UnitIsUnit(nameplateN.."target", "player")` is secret ~85% of the time in a battleground).
+- **Health thresholds, never read**: `UnitHealthPercent(unit, true, curve)` returns the curve's
+  value at the unit's health % (secret) → `SetAlpha`: a step at 20 % = an execute mark; not on
+  players in PvP → **declared** + **reported** (BetterBlizzPlates, `references/betterblizzplates.md`).
 - **AND of two secret booleans**: `SetAlphaFromBoolean` accepts a SECRET alpha, so
   `shown = C_CurveUtil.EvaluateColorValueFromBoolean(condA, 0, 1)` then
   `frame:SetAlphaFromBoolean(condB, shown, 0)` shows only when both hold → **reported**
@@ -160,7 +163,10 @@ Re-list after a patch: `grep -c "NeverSecret = true"` over `Blizzard_APIDocument
 
 - **Broken**: `UnitPosition(unit)` (nil on others), `UnitDistanceSquared` (no answer on a mob, a
   stranger, an enemy player), `C_SwingTimer.IsTargetWithinSwingRange` (nil for a mage) → **measured**
-  2026-10-08.
+  2026-10-08. **But** it takes a swing type (MainHand / OffHand / **Ranged**) and is nil when no
+  weapon fits that type: re-probe Ranged with a wand (30 yd) and MainHand with a staff (melee), plus
+  the event form `EnableRangeCheck` + `PLAYER_SWING_RANGE_UPDATE` → **candidate**
+  (`references/weaponswingtimer.md`).
 - **Range ladder**: yes/no checks with known reach, short to long. LibRangeCheck-3.0 v38's
   Era/Forever item list (bundled with Platynator) answers on Forever, **every rung**. Switch points
   from the target's CENTER (listed range + 3, hitboxes): 8 (item 8149), 10 (interact 3; 2 and 5
@@ -330,5 +336,15 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   melee-range ratio; encounter-name filters when unit names are secret.
 - `references/battlegroundenemies.md` (GPL): the scoreboard roster, `UnitName`'s PvP exemption
   (conflicts with our measurement), `UnitIsEnemy` secret → `UnitFactionGroup` / `UnitIsFriend`, no DR
-  in battlegrounds.
+  in battlegrounds; Capping's timers from area POIs, widgets and system chat.
+- `references/whatstraining.md` (MIT): Forever trainer prices (Honored 10 %, Friendly full, tomes
+  full), `C_Reputation.GetFactionDataByID`, joining the spellbook through `EventRegistry` callbacks,
+  `hooksecurefunc` misbehaving with `taintLog` on.
+- `references/betterblizzplates.md` (all rights reserved; + AdvancedInterfaceOptions): health
+  thresholds via `UnitHealthPercent` + curve; plate scale follows the CAMERA distance; tracing who
+  set a CVar (`debugstack` can be secret).
+- `references/weaponswingtimer.md` (GPL): `C_SwingTimer` (`PLAYER_SWING`, range by swing type and
+  its event), enemy swing cadence from `UNIT_COMBAT` on yourself.
+- Not used: Threat Plates (its source `.toc` has no Forever line), HealBot and OPie (no public
+  source: a download would need Finess's OK).
 

@@ -50,6 +50,18 @@ when the filter really differs (it starts at -1 = both teams). (`Main.lua:172-19
 | In flag / orb battlegrounds, `arenaN` tokens exist only for objective carriers: use them for carriers, name matching for the rest. | `Main.lua:2424-2451` |
 | Dead player: force every frame to out-of-range alpha (you can't cast from a corpse). | `Main.lua:2828-2836` |
 
+## Battleground timers (Capping)
+
+Capping (BigWigsMods, GitHub `BigWigsMods/Capping`, `.toc` includes `16001`; "All Rights Reserved:
+free to fork and modify on GitHub, please ask us about anything else": own words only) builds every
+battleground timer from readable sources, with no secret handling at all: area POIs
+(`C_AreaPoiInfo.GetAreaPOIForMap / GetAreaPOIInfo` on `AREA_POIS_UPDATED`: a node's texture changes
+when it's assaulted / captured), UI widgets (`UPDATE_UI_WIDGET`,
+`C_UIWidgetManager.GetIconAndTextWidgetVisualizationInfo`), battleground system chat
+(`CHAT_MSG_BG_SYSTEM_*`, `CHAT_MSG_MONSTER_YELL`), the scoreboard, queue status
+(`GetBattlefieldStatus`, `GetBattlefieldPortExpiration`, `GetBattlefieldEstimatedWaitTime`), and
+addon messages to share timers between users. (`Core.lua`, `Modules/*.lua`)
+
 ## Ideas for us
 
 - **Mage Kit Enemies in battlegrounds**: the scoreboard gives names + classes all match (declared);
