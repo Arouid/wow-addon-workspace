@@ -31,7 +31,7 @@ here is one of five ways to still get a decision. Classify a new find by which o
 | **A. A readable side channel**: a related value the game leaves plain | yes | aura instance-ID lists (`#ids`), your own cast events, threat values, cooldown `isActive`, `C_Secrets.Should...` predicates, frame identity, Loss of Control `priority` |
 | **B. The event itself**: THAT something happened, even with a hidden payload | yes ("something changed") | enemy `UNIT_SPELLCAST_*` (KICK alert), `UNIT_AURA`, nameplate added/removed (stealth check) |
 | **C. Geometry and time**: combine yes/no answers with what you know (your position, the clock) | yes | range ladder, locator (trilateration), flip timing |
-| **D. The engine decides, Lua never knows**: the condition only drives a visual | no, the screen does | `SetAlphaFromBoolean`, color from booleans/curves, engine aura containers, nested-container AND tints |
+| **D. The engine decides, Lua never knows**: the condition only drives a visual | no, the screen does | `SetAlphaFromBoolean`, color from booleans/curves, engine aura containers, nested-container AND tints, **geometry gates** (NOT, time-left, stacks: below) |
 | **E. Ask before reading**: is this going to be hidden here? | yes (switch strategy) | `C_Secrets.Should...BeSecret` |
 
 Notes: D is the sanctioned path Blizzard built for hidden values and the most future-proof. A-C rely on
@@ -105,6 +105,15 @@ build on it.
 - `region:SetAlphaFromBoolean(secretBool, alphaIfTrue, alphaIfFalse)`: **measured** (range icons
   greying out of range inside a battleground, 2026-10-07). Same trick: the TARGETING YOU mark
   (`UnitIsUnit(nameplateN.."target", "player")` is secret ~85% of the time in a battleground).
+- **Geometry gates** (EverAuras, `references/everauras.md`, **reported**, several dated by its author):
+  the engine sizes frames from secrets; anchor CLIPS to those edges and the clip becomes the logic.
+  **NOT**: an aura group with one button is 1 px wide while the aura is absent, W+1 while present: a
+  clip from its right edge shows "missing". **Time left < X**: an invisible duration bar (K px/s)
+  inside the button, a clip from its fill edge to a fixed point. **Stacks ≥ N**: a stack bar
+  (`SetApplicationBar`, range 0..N) and a clip to its fill edge. **Packing**: a chain of 1 px
+  containers. Rules: everything anchored to a container carries its layout-script ban; regions
+  anchored to a shown aura button refuse `SetPoint`/`SetSize` (secret anchoring) and re-parenting:
+  build once, move only with animations; use linear curves with a 0.0001 edge, not Step.
 - **Text and speech from secrets**: build the format string from plain pieces, then ONE
   `string.format`/`SetFormattedText` with the secret values (never concatenate the result); a
   secret text's `GetStringWidth/Height` are secret and `SetSize` rejects them (size from known
@@ -355,6 +364,10 @@ flags. It DISAGREES with Forever's source on what an unusable `includeSpellIDs` 
   function attributes set by addons run tainted (use `"togglemenu"`).
 - `references/northernsky.md` (all rights reserved): secret numbers in one format call, secret text
   sizes, speaking secret text.
+- `references/everauras.md` (GPL-2.0: ideas only, unless Context goes GPL-compatible): **a
+  WeakAuras for Forever that works in combat** — the closest thing to Context — with geometry gates,
+  learned aura IDs, DoT durations from descriptions, plain `IsSpellInRange` in combat, secret power
+  even out of combat, and a probe addon (ForeverDevInfo) worth mirroring in Mage Kit.
 - Not used: Threat Plates (its source `.toc` has no Forever line), HealBot and OPie (no public
   source: a download would need Finess's OK).
 

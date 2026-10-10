@@ -4,6 +4,12 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.9 - 2026-10-10 (Finess's copy)
+
+- `forever-techniques`: EverAuras (`references/everauras.md`, GPL-2.0, ideas only), a WeakAuras for
+  Forever: **geometry gates** (NOT / time left / stacks / packing computed as engine-set sizes and
+  clips), secret anchoring around aura buttons, learned aura IDs, and its ForeverDevInfo probes.
+
 ## wow-addon-dev 0.5.8 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: BetterBlizzFrames (in `betterblizzplates.md`) and Northern Sky Raid Tools
