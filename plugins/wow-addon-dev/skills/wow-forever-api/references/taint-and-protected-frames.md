@@ -110,15 +110,18 @@ windows. It blocked the player's movement.
 ## Toasts: the game's own stack is open to addons
 
 - **An addon can show its toasts in the game's toast stack without a blocked action.** Forever
-  1.60.1 (build 70338), 2026-10-11, test addon, our other addons disabled:
-  `AlertFrame:AddQueuedAlertFrameSubSystem("MyToastTemplate", setUp, 2, 6)` once, then
-  `system:AddAlert(...)`, which calls `setUp(frame, ...)`. Toasts fired out of combat and in combat
-  (from a `C_Timer` ticker and from a slash command), action bars, bags, spellbook and profession
-  window used in combat, then a Blizzard toast after ours in the same session (a recipe learned at a
-  trainer, `NEW_RECIPE_LEARNED`): 0 `ADDON_ACTION_BLOCKED` or `FORBIDDEN`, 0 Lua error. Control
-  session, nothing registered, same gestures: 0 blocks. That's the bottom stack, where achievements
-  and loot show; it queues (here 2 shown, 6 waiting), so toasts from several addons and Blizzard's
-  stack instead of overlapping.
+  1.60.1 (build 70338), 2026-10-11, test addon, our other addons disabled, one subsystem
+  registered out of combat: `AlertFrame:AddQueuedAlertFrameSubSystem("MyToastTemplate", setUp, 2, 6)`,
+  then `system:AddAlert(...)`, which calls `setUp(frame, ...)`. In one session, toasts fired in
+  combat (from a `C_Timer` ticker and from a slash command) while action bars, bags, spellbook and
+  profession window were used: 0 `ADDON_ACTION_BLOCKED` or `FORBIDDEN`, 0 Lua error. In another, a
+  Blizzard toast passed after ours, out of combat (a recipe learned at a trainer,
+  `NEW_RECIPE_LEARNED`): 0 blocks, 0 Lua error. Control session, nothing registered: 0 blocks. Not
+  tried: registering in combat (do it at login), a Blizzard toast after ours in combat.
+- That's the bottom stack, where achievements and loot show. From the source (`AlertFrames.lua`), it
+  queues (`maxAlerts` shown, `maxQueue` waiting) and anchors every subsystem's toasts one above the
+  other, so several addons' toasts and Blizzard's shouldn't overlap; only one addon subsystem was
+  registered in the test.
 - **The template is checked by the system, not by the parser.** It must inherit
   `AlertFrameTemplate` (a `ContainedAlertFrame`: right-click closes it, hovering pauses it) and carry
   the animation groups the system plays: `animIn`, and `waitAndAnimOut` with a child `animOut`
@@ -127,7 +130,8 @@ windows. It blocked the player's movement.
   `Blizzard_FrameXML/Mainline/AlertFrameSystems.xml` and change the layers.
 - `ChatAlertFrame:AddAutoAnchoredSubSystem(yourFrame)`, the stack above the chat (Battle.net and
   Delves toasts), passed the same combat test the same day; a Blizzard toast after ours wasn't tried
-  there. It places one frame per subsystem and doesn't queue: a new toast replaces the one shown.
+  there. From the source, it places one frame per subsystem and doesn't queue: a new toast replaces
+  the one shown.
 - Not for routine notices: `RaidWarningUtil.AddMessage(text, colorInfo, duration)` is the raid
   warning text in the middle of the screen. `RaidNotice_AddMessage` only exists when the CVar
   `loadDeprecationFallbacks` is on (`Blizzard_DeprecatedRaidWarning`, build 70338).

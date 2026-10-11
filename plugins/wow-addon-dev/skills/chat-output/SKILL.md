@@ -27,12 +27,12 @@ cast, a loot, a zone change, a tooltip, a combat event, a timer, an `OnUpdate`, 
 another player's addon. Show it somewhere else: a toast for a moment, an icon or a counter for a
 state that lasts ("3 spots waiting to be shared" stays on its icon until it's done).
 
-For the toast, use the game's own stack, the one achievements and loot show in: register once with
-`AlertFrame:AddQueuedAlertFrameSubSystem(template, setUp, shown, queued)`, then call
-`system:AddAlert(...)`. It queues, so your toasts, other addons' and Blizzard's stack instead of
-overlapping, and players already know where to look. On Forever it was measured safe in combat
-(`wow-forever-api`, `taint-and-protected-frames.md`, "Toasts"), which also says what the template
-must carry. On another client, check that reference's target before you rely on it.
+For the toast, use the game's own stack, the one achievements and loot show in: register once at
+login with `AlertFrame:AddQueuedAlertFrameSubSystem(template, setUp, shown, queued)`, then call
+`system:AddAlert(...)`. It queues and stacks, and players already know where to look. On Forever,
+toasts fired that way in combat blocked nothing (`wow-forever-api`, `taint-and-protected-frames.md`,
+"Toasts", which says what was tried, what wasn't, and what the template must carry). On another
+client, check that reference's target before you rely on it.
 
 ## Answering the player
 
