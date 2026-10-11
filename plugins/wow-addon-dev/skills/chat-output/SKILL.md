@@ -1,6 +1,6 @@
 ---
 name: chat-output
-description: "What a WoW addon may print to the chat frame, and when: only an answer to something the player just did (a slash command, a click on the addon's own frames, a keybinding); nothing at login except one line after an install or an update; never a line from a repeated game event or another player's message. Covers on/off commands (typed alone they show the state, only on/off change it), one action = one line, no 'nothing happened' lines, where the rest goes instead, and a headless test that counts the lines. Use whenever you add or change a print, a DEFAULT_CHAT_FRAME:AddMessage or a Print helper, a login message, a notification, or a slash command that turns something on or off, and when a player says an addon spams the chat."
+description: "What a WoW addon may print to the chat frame, and when: only an answer to something the player just did (a slash command, a click on the addon's own frames, a keybinding); nothing at login except one line after an install or an update; never a line from a repeated game event or another player's message. Covers on/off commands (typed alone they show the state, only on/off change it), one action = one line, no 'nothing happened' lines, where the rest goes instead (a toast in the game's own AlertFrame stack, an icon for a state), and a headless test that counts the lines. Use whenever you add or change a print, a DEFAULT_CHAT_FRAME:AddMessage or a Print helper, a login message, a notification, or a slash command that turns something on or off, and when a player says an addon spams the chat."
 ---
 
 # Chat output
@@ -24,9 +24,15 @@ the addon's own frames, a keybinding. Nothing else goes to chat, with two except
 
 A repeated game event never writes to chat, even with a result the player would like to know: a
 cast, a loot, a zone change, a tooltip, a combat event, a timer, an `OnUpdate`, a message from
-another player's addon. Show it in the addon's own UI instead (a frame, an icon, a counter, a toast
-of your own). Don't borrow one of Blizzard's frames for it unless `wow-forever-api` says that's safe
-on your client.
+another player's addon. Show it somewhere else: a toast for a moment, an icon or a counter for a
+state that lasts ("3 spots waiting to be shared" stays on its icon until it's done).
+
+For the toast, use the game's own stack, the one achievements and loot show in: register once with
+`AlertFrame:AddQueuedAlertFrameSubSystem(template, setUp, shown, queued)`, then call
+`system:AddAlert(...)`. It queues, so your toasts, other addons' and Blizzard's stack instead of
+overlapping, and players already know where to look. On Forever it was measured safe in combat
+(`wow-forever-api`, `taint-and-protected-frames.md`, "Toasts"), which also says what the template
+must carry. On another client, check that reference's target before you rely on it.
 
 ## Answering the player
 
