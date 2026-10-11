@@ -4,6 +4,20 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.4.1 - 2026-10-11
+
+A correction in `wow-forever-api` (`secret-values-and-lockdowns.md`, Forever build 70338). The page
+recommended a targeted `GetPlayerAuraBySpellID` read as the safer way to read an aura in combat. It
+doesn't throw there: it returns `nil` with no error when the aura is secret, as its
+`RequiresNonSecretAura` tag in the client's documentation says. In combat, "no buff" and "hidden
+buff" read the same. One of our addons took that `nil` for "the buff is gone" and showed the same
+reminder toast after every fight. The page now says to tie one-shot state to the aura instance (its
+`expirationTime`) and never to conclude "absent" from a read under a restriction.
+
+Also measured: `C_Secrets.ShouldSpellAuraBeSecret(spellID)` returned `false` out of combat and `true`
+in combat for that buff. `api-gotcha-reviewer` now flags a `nil` from `GetPlayerAuraBySpellID` taken
+for "buff gone".
+
 ## wow-addon-dev 0.4.0 - 2026-10-11
 
 A new skill, `chat-output`: what an addon may print to the chat frame, and when. It started with a

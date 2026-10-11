@@ -121,8 +121,9 @@ windows. It blocked the player's movement.
   day, in a real addon, a toast fired by a slash command during a fight was on screen (screenshot,
   a mob hitting the player), and two toasts shown together sat one above the other.
 - **A toast in combat is only as good as what feeds it.** An addon that toasts a result it reads
-  from the player's auras gets nothing in combat: the aura read itself throws there
-  (`secret-values-and-lockdowns.md`, "A CALL can throw"). The way out: keep the event and decide at
+  from the player's auras gets nothing in combat: a sweep over `GetAuraDataByIndex` throws there,
+  and `GetPlayerAuraBySpellID` returns `nil` without an error (`secret-values-and-lockdowns.md`,
+  "A CALL can throw" and the section after it). The way out: keep the event and decide at
   `PLAYER_REGEN_ENABLED`, checking the aura's start (`expirationTime - duration`) against the time
   of the event. Seen working on 2026-10-11: a buff gained in combat was read and counted right after
   combat ended. That run checked the count, not a toast arriving at that moment.
