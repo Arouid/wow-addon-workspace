@@ -3,7 +3,7 @@ local _, ns = ...
 if GetLocale() ~= "deDE" then return end
 
 local L = ns.L
-L["loaded. Type /%s for help."] = "geladen. Gib /%s für die Hilfe ein."
+L["version %s. Type /%s for help."] = "Version %s. Gib /%s für die Hilfe ein."
 L["version %s"] = "Version %s"
 L["Commands:"] = "Befehle:"
 L["shows the version"] = "zeigt die Version"

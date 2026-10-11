@@ -80,7 +80,9 @@ test('a new addon passes every check', needsLua, () => {
   assert.equal(r.code, 0, r.out);
   assert.match(r.out, /All checks passed/);
   assert.match(r.out, /\[OK\]\s+locale\s+4 key\(s\) used, 3 overlay\(s\)/);
-  assert.match(r.out, /\[OK\]\s+tests\s+1 file\(s\), 2 check\(s\) passed/);
+  // 4 checks: the first login says the version once, the next one is silent (chat-output), the
+  // command is registered, /bagcounter version answers.
+  assert.match(r.out, /\[OK\]\s+tests\s+1 file\(s\), 4 check\(s\) passed/);
 });
 
 test('refusals: bad name, game command, taken command, existing folder or entry, odd title', () => {
