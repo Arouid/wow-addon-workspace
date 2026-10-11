@@ -1,6 +1,6 @@
 ---
 name: chat-output
-description: "What a WoW addon may print to the chat frame, and when: only an answer to something the player just did (a slash command, a click on the addon's own frames, a keybinding); nothing at login except one line after an install or an update; never a line from a repeated game event or another player's message. Covers on/off commands (typed alone they show the state, only on/off change it), one action = one line, no 'nothing happened' lines, where the rest goes instead (a toast in the game's own AlertFrame stack, an icon for a state), and a headless test that counts the lines. Use whenever you add or change a print, a DEFAULT_CHAT_FRAME:AddMessage or a Print helper, a login message, a notification, or a slash command that turns something on or off, and when a player says an addon spams the chat."
+description: "What a WoW addon may print to the chat frame, and when: only an answer to something the player just did (a slash command, a click on the addon's own frames, a keybinding); nothing at login except one line after an install or an update; never a line from a repeated game event or another player's message, except in a debug mode the player turns on by command. Covers on/off commands (typed alone they show the state, only on/off change it), one action = one line, no 'nothing happened' lines, where the rest goes instead (a toast in the game's own AlertFrame stack, an icon for a state), and a headless test that counts the lines. Use whenever you add or change a print, a DEFAULT_CHAT_FRAME:AddMessage or a Print helper, a login message, a notification, or a slash command that turns something on or off, and when a player says an addon spams the chat."
 ---
 
 # Chat output
@@ -14,13 +14,18 @@ back on."
 ## The rule
 
 An addon writes to chat only to answer something the player just did: a slash command, a click on
-the addon's own frames, a keybinding. Nothing else goes to chat, with two exceptions.
+the addon's own frames, a keybinding. Nothing else goes to chat, with three exceptions.
 
 - The first login after an install or an update gets one line: the version, and what changes for
   the player if anything does. Keep the last version the player saw in the saved variables and
   compare it at `PLAYER_LOGIN`. Every other login is silent, so no "loaded, type /x for help".
 - A failure that stops the addon from working (a library that didn't load, a client it doesn't
   support) gets one line, once per session.
+- A debug mode the player turns on with a command (`/myaddon debug on`) may write what happens
+  behind the scenes, events included: the player asked for it. Keep it to one switch named
+  `debug`, off by default, and nothing but the player turns it on (not a test build, not a beta).
+  Say it's on wherever the addon shows its status, so nobody stays verbose without knowing why. A
+  trace kept in the saved variables instead of the chat needs no exception at all.
 
 A repeated game event never writes to chat, even with a result the player would like to know: a
 cast, a loot, a zone change, a tooltip, a combat event, a timer, an `OnUpdate`, a message from

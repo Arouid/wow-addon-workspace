@@ -77,7 +77,7 @@ Each line: what to spot → the reference that says why and what to ask for.
 | `SetTexture` on a `.png`, a `.tga` that isn't a power of 2; `✓ ✗ □ ▾ ○ ◆` passed to `SetText` | `ui-rendering-and-assets.md` |
 | `WorldMapFrame:GetCanvasScale()` to compensate a scale; a row pool smaller than the visible rows | `ui-rendering-and-assets.md` |
 | Binary or compressed data in SavedVariables; assuming SavedVariables are per character; renaming an addon folder | `client-and-tooling.md`, `ui-rendering-and-assets.md` |
-| A new `print`, `DEFAULT_CHAT_FRAME:AddMessage` or Print helper call reached from an event handler, `OnUpdate`, `C_Timer`, a hook or `CHAT_MSG_ADDON` (follow the call up to where it starts) | `chat-output` skill |
+| A new `print`, `DEFAULT_CHAT_FRAME:AddMessage` or Print helper call reached from an event handler, `OnUpdate`, `C_Timer`, a hook or `CHAT_MSG_ADDON` (follow the call up to where it starts), unless only the addon's debug switch lets it through; a debug mode that's on by default or turns itself on | `chat-output` skill |
 | A chat line at login other than the first login after an install or update, or a failure that stops the addon | `chat-output` skill |
 | A slash command that flips a setting when typed alone; a line after `off` that reads as still on | `chat-output` skill |
 | Two lines for one action (a hint on its own line); a line that says nothing happened when nobody asked | `chat-output` skill |
