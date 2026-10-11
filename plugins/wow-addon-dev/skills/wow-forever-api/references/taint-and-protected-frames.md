@@ -122,9 +122,9 @@ windows. It blocked the player's movement.
   a mob hitting the player), and two toasts shown together sat one above the other.
 - **A toast in combat is only as good as what feeds it.** An addon that toasts a result it reads
   from the player's auras gets nothing in combat: the aura read itself throws there
-  (`secret-values-and-lockdowns.md`, "A CALL can throw"). Keep the event and decide at
-  `PLAYER_REGEN_ENABLED`, checking the aura's start (`expirationTime - duration`) against the time
-  of the event.
+  (`secret-values-and-lockdowns.md`, "A CALL can throw"). The way out we're trying (headless tests
+  only so far, not yet seen in game): keep the event and decide at `PLAYER_REGEN_ENABLED`, checking
+  the aura's start (`expirationTime - duration`) against the time of the event.
 - That's the bottom stack, where achievements and loot show. From the source (`AlertFrames.lua`), it
   queues (`maxAlerts` shown, `maxQueue` waiting) and anchors every subsystem's toasts one above the
   other, so several addons' toasts and Blizzard's shouldn't overlap; only one addon subsystem was
