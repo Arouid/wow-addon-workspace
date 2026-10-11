@@ -45,7 +45,33 @@ secret while tainted by '<addon>'". It's not a `nil` to test: a `pcall` around t
 protects nothing, **the call** is what needs guarding. What follows:
 - a polling loop (once a second) turns one refusal into a shower of errors, so any refusal
   **pauses the reading for a few seconds**, and the pause lifts on its own;
-- prefer a **targeted** read (`GetPlayerAuraBySpellID` on a known id) to sweeping all 40 slots.
+- a targeted read on a known id costs one call instead of 40, but it fails the other way (next
+  section).
+
+## ...or return `nil` without a word: in combat, "no buff" and "hidden buff" look the same
+
+Not every aura call fails the same way. The client's own documentation (Forever build 70338,
+`UnitAuraDocumentation.lua` and `SecretPredicatesDocumentation.lua`) tags each one:
+- `RequiresUnitAuraAccess` (`GetAuraDataByIndex`, `GetAuraDataBySlot`…): failure mode `Error`, the
+  call **throws** (the case above);
+- `RequiresNonSecretAura` (`GetPlayerAuraBySpellID`): "This does not raise a blocked action error -
+  instead, protected APIs will return no values". When the aura is secret, the call returns
+  **`nil`, no error**.
+
+Measured in game on 2026-10-11 (build 70338, player's own 15-minute buff, open world, trash mob):
+out of combat, `GetPlayerAuraBySpellID` read the buff; in combat it returned `nil` with no error.
+An addon that took that `nil` for "the buff is gone" re-armed a one-shot reminder in every fight,
+and the reminder fired again at every `PLAYER_REGEN_ENABLED`: a toast after each kill. A first fix
+that waited for an error changed nothing, because no error ever comes on that path.
+- **Never conclude "absent" from a `nil` read under a restriction.** Tie a one-shot state to the
+  aura **instance**, for example its `expirationTime` (read under `pcall`; a refreshed buff gets a
+  new one, allow a second or two of drift), and let absences change nothing.
+- `C_Secrets.ShouldSpellAuraBeSecret(spellID)` answers "would this aura be secret right now?".
+  Measured the same day on that buff: `false` out of combat, `true` in combat. That's one buff and
+  one session. `C_Secrets.ShouldAurasBeSecret()` exists too, not measured.
+- Code that relied on `GetPlayerAuraBySpellID` throwing in combat may still work by accident:
+  in that addon, the targeted read returned `nil` and the fallback sweep over `GetAuraDataByIndex`
+  is what threw and deferred the verdict to the end of combat. Check which call actually raises.
 
 ## Two separate lockdowns
 
