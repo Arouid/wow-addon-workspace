@@ -117,7 +117,14 @@ windows. It blocked the player's movement.
   profession window were used: 0 `ADDON_ACTION_BLOCKED` or `FORBIDDEN`, 0 Lua error. In another, a
   Blizzard toast passed after ours, out of combat (a recipe learned at a trainer,
   `NEW_RECIPE_LEARNED`): 0 blocks, 0 Lua error. Control session, nothing registered: 0 blocks. Not
-  tried: registering in combat (do it at login), a Blizzard toast after ours in combat.
+  tried: registering in combat (do it at login), a Blizzard toast after ours in combat. Later that
+  day, in a real addon, a toast fired by a slash command during a fight was on screen (screenshot,
+  a mob hitting the player), and two toasts shown together sat one above the other.
+- **A toast in combat is only as good as what feeds it.** An addon that toasts a result it reads
+  from the player's auras gets nothing in combat: the aura read itself throws there
+  (`secret-values-and-lockdowns.md`, "A CALL can throw"). Keep the event and decide at
+  `PLAYER_REGEN_ENABLED`, checking the aura's start (`expirationTime - duration`) against the time
+  of the event.
 - That's the bottom stack, where achievements and loot show. From the source (`AlertFrames.lua`), it
   queues (`maxAlerts` shown, `maxQueue` waiting) and anchors every subsystem's toasts one above the
   other, so several addons' toasts and Blizzard's shouldn't overlap; only one addon subsystem was
