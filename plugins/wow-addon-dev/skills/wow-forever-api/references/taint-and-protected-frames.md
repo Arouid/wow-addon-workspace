@@ -107,6 +107,43 @@ windows. It blocked the player's movement.
 - The `UnitPopupButtons` table is gone (current Era and Forever): a guard that tests it silences
   the whole right-click menu.
 
+## Toasts: the game's own stack is open to addons
+
+- **An addon can show its toasts in the game's toast stack without a blocked action.** Forever
+  1.60.1 (build 70338), 2026-10-11, test addon, our other addons disabled, one subsystem
+  registered out of combat: `AlertFrame:AddQueuedAlertFrameSubSystem("MyToastTemplate", setUp, 2, 6)`,
+  then `system:AddAlert(...)`, which calls `setUp(frame, ...)`. In one session, toasts fired in
+  combat (from a `C_Timer` ticker and from a slash command) while action bars, bags, spellbook and
+  profession window were used: 0 `ADDON_ACTION_BLOCKED` or `FORBIDDEN`, 0 Lua error. In another, a
+  Blizzard toast passed after ours, out of combat (a recipe learned at a trainer,
+  `NEW_RECIPE_LEARNED`): 0 blocks, 0 Lua error. Control session, nothing registered: 0 blocks. Not
+  tried: registering in combat (do it at login), a Blizzard toast after ours in combat. Later that
+  day, in a real addon, a toast fired by a slash command during a fight was on screen (screenshot,
+  a mob hitting the player), and two toasts shown together sat one above the other.
+- **A toast in combat is only as good as what feeds it.** An addon that toasts a result it reads
+  from the player's auras gets nothing in combat: the aura read itself throws there
+  (`secret-values-and-lockdowns.md`, "A CALL can throw"). The way out: keep the event and decide at
+  `PLAYER_REGEN_ENABLED`, checking the aura's start (`expirationTime - duration`) against the time
+  of the event. Seen working on 2026-10-11: a buff gained in combat was read and counted right after
+  combat ended. That run checked the count, not a toast arriving at that moment.
+- That's the bottom stack, where achievements and loot show. From the source (`AlertFrames.lua`), it
+  queues (`maxAlerts` shown, `maxQueue` waiting) and anchors every subsystem's toasts one above the
+  other, so several addons' toasts and Blizzard's shouldn't overlap; only one addon subsystem was
+  registered in the test.
+- **The template is checked by the system, not by the parser.** It must inherit
+  `AlertFrameTemplate` (a `ContainedAlertFrame`: right-click closes it, hovering pauses it) and carry
+  the animation groups the system plays: `animIn`, and `waitAndAnimOut` with a child `animOut`
+  whose `OnFinished` hides the frame (`AlertFrame_PlayOutAnimation` reads
+  `frame.waitAndAnimOut.animOut`). Copy `NewRecipeLearnedAlertFrameTemplate` from
+  `Blizzard_FrameXML/Mainline/AlertFrameSystems.xml` and change the layers.
+- `ChatAlertFrame:AddAutoAnchoredSubSystem(yourFrame)`, the stack above the chat (Battle.net and
+  Delves toasts), passed the same combat test the same day; a Blizzard toast after ours wasn't tried
+  there. From the source, it places one frame per subsystem and doesn't queue: a new toast replaces
+  the one shown.
+- Not for routine notices: `RaidWarningUtil.AddMessage(text, colorInfo, duration)` is the raid
+  warning text in the middle of the screen. `RaidNotice_AddMessage` only exists when the CVar
+  `loadDeprecationFallbacks` is on (`Blizzard_DeprecatedRaidWarning`, build 70338).
+
 ## Nameplates: read through them, never cast through them
 
 Measured on Forever, build 70205, 2026-10-04, with a probe addon (one paladin, Ironforge and a
@@ -193,3 +230,8 @@ dungeon, out of combat). Re-check with the same gestures after a patch.
 Read `taint.log` (group the stacks by their bottom), read Blizzard's source on the lines just
 BEFORE the blocked one, then **prove it** with a minimal test addon (one gesture per session,
 your addon disabled) before touching your code. A day of blind fixes was lost once already.
+
+**`taint.log` starts over every time the UI loads**, on `/reload` as on login (Forever 1.60.1,
+2026-10-11: the file began at the second of the last `/reload`, then again at the next login, and
+the session tested in between was gone). Read or copy it before you reload, and log out rather than
+reload at the end of a test.

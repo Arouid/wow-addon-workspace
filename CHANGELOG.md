@@ -4,6 +4,31 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.4.0 - 2026-10-11
+
+A new skill, `chat-output`: what an addon may print to the chat frame, and when. It started with a
+player's comment on one of our addons, "Too much chat spam, and the /ley signal off just turns
+itself back on".
+
+- The chat only answers something the player just did: a slash command, a click on the addon's own
+  frames, a keybinding. Nothing at login except one line after an install or an update. A repeated
+  game event or another player's message never writes to chat, and a debug mode the player turns on
+  by command is the one exception.
+- An on/off command typed alone shows the state and the word that changes it. Only `on` and `off`
+  change it.
+- What doesn't belong in chat goes to a toast in the game's own stack (`AlertFrame`), or to an icon
+  for a state that lasts. A toast is for news: coming back to something the addon already knows
+  shows nothing.
+- `api-gotcha-reviewer` loads the skill and flags new lines that break it.
+- The `new-addon` template stops printing "loaded" at every login. It says so once after an install
+  or an update, and its test checks that.
+
+New in `wow-forever-api` (`taint-and-protected-frames.md`, Forever build 70338): the game's toast
+stack is open to addons. Toasts registered with `AlertFrame:AddQueuedAlertFrameSubSystem` showed in
+combat with nothing blocked, two at once sat one above the other, and a Blizzard toast after ours
+went through. A toast fed by an aura read gets nothing in combat, because the read itself throws;
+deciding once combat ends was seen working.
+
 ## wow-addon-dev 0.3.11 - 2026-10-10
 
 One more Discord fact in `wow-forever-api`, measured on Forever build 70338: a Discord bot can't post
