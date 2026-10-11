@@ -67,7 +67,7 @@ Each line: what to spot → the reference that says why and what to ask for.
 | `SetParent` onto a Blizzard frame; `Show`/`Hide`/`SetPoint`/`EnableMouse` on a protected frame without an `IsProtected() and InCombatLockdown()` guard; a protected frame in `UISpecialFrames` | `taint-and-protected-frames.md` |
 | `UIDropDownMenu_*`, `HelpPlate.*`, opening a Menu-system dropdown (`WowStyle1DropdownTemplate`, `SetupMenu`, `MenuUtil.CreateContextMenu`), grabbing the keyboard | `taint-and-protected-frames.md` |
 | A column placed at "parent + N" on a Blizzard frame (draw order) | `taint-and-protected-frames.md` |
-| `UnitName`/`GetUnitName` of ANOTHER unit used as a key or compared without a secret test; an aura-reading loop with no pause on refusal; a secret saved to SavedVariables | `secret-values-and-lockdowns.md` |
+| `UnitName`/`GetUnitName` of ANOTHER unit used as a key or compared without a secret test; an aura-reading loop with no pause on refusal; a `nil` from `GetPlayerAuraBySpellID` taken for "buff gone" (it's `nil` in combat when the aura is secret, no error); a secret saved to SavedVariables | `secret-values-and-lockdowns.md` |
 | An addon send with no instance guard (`InChatMessagingLockdown`) | `secret-values-and-lockdowns.md` |
 | `SendAddonMessage(..., "CHANNEL", ...)` to a GAME channel or a community; `SAY`/`YELL` outside instances; critical data trusted to a channel alone | `chat-channels-and-communities.md` |
 | `SendChatMessage` on a channel outside a click or key stack (timer, login); a `\|` not encoded in channel text | `chat-channels-and-communities.md` |
