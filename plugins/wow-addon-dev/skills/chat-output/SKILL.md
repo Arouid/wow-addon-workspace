@@ -32,6 +32,10 @@ cast, a loot, a zone change, a tooltip, a combat event, a timer, an `OnUpdate`, 
 another player's addon. Show it somewhere else: a toast for a moment, an icon or a counter for a
 state that lasts ("3 spots waiting to be shared" stays on its icon until it's done).
 
+A toast is for news. An event that only confirms what the addon already knows (the player is back
+at a spot that's already on the map) shows nothing at all: count it silently. Coming back to known
+spots is often what the addon is for, and a toast on every visit is spam in a new place.
+
 For the toast, use the game's own stack, the one achievements and loot show in: register once at
 login with `AlertFrame:AddQueuedAlertFrameSubSystem(template, setUp, shown, queued)`, then call
 `system:AddAlert(...)`. It queues and stacks, and players already know where to look. On Forever,
