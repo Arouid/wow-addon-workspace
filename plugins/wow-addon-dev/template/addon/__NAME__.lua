@@ -54,6 +54,11 @@ frame:SetScript("OnEvent", function(_, event, arg1)
         CopyDefaults(__NAME__DB, ns.DEFAULTS)
         ns.db = __NAME__DB
     elseif event == "PLAYER_LOGIN" then
-        ns:Printf(L["loaded. Type /%s for help."], "__SLASH__")
+        -- Silent at login, except the first one after an install or an update (chat-output skill).
+        -- seenVersion lives in the account-wide saved variables: one line per account, not per character.
+        if ns.db.seenVersion ~= ns.VERSION then
+            ns.db.seenVersion = ns.VERSION
+            ns:Printf(L["version %s. Type /%s for help."], ns.VERSION, "__SLASH__")
+        end
     end
 end)

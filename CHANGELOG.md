@@ -4,6 +4,13 @@ Each plugin's `version` in `plugins/<plugin>/.claude-plugin/plugin.json` goes up
 release: Claude Code files an installed plugin by its version, so an update that keeps the same
 number may never reach people who already installed it.
 
+## wow-addon-dev 0.5.22 - 2026-10-14 (Finess's copy)
+
+- Merged Wafhien's 0.3.10 to 0.4.1 (the four entries below Finess's 0.4.0): the Discord bridge
+  facts, the `chat-output` skill (loaded by `api-gotcha-reviewer`, followed by the `new-addon`
+  template), the toast stack open to addons, and `GetPlayerAuraBySpellID` returning `nil` in combat.
+  Nothing of Finess's copy changed: `link`, `forever-techniques` and the catalog name stay.
+
 ## wow-addon-dev 0.5.21 - 2026-10-10 (Finess's copy)
 
 - `forever-techniques`: BazUI (`bazui.md`, GPL-2.0-or-later): secret colors draw black, aura reads
@@ -170,6 +177,67 @@ number may never reach people who already installed it.
   range-check flips and your own position); stealth and targeting awareness; secure buttons; and the
   frontier still to probe (engine radar, spoken alerts, CC on units, damage meter, secrecy
   predicates, color curves, rotation helper). Every entry: proof, status, date.
+
+## wow-addon-dev 0.4.1 - 2026-10-11
+
+A correction in `wow-forever-api` (`secret-values-and-lockdowns.md`, Forever build 70338). The page
+recommended a targeted `GetPlayerAuraBySpellID` read as the safer way to read an aura in combat. It
+doesn't throw there: it returns `nil` with no error when the aura is secret, as its
+`RequiresNonSecretAura` tag in the client's documentation says. In combat, "no buff" and "hidden
+buff" read the same. One of our addons took that `nil` for "the buff is gone" and showed the same
+reminder toast after every fight. The page now says to tie one-shot state to the aura instance (its
+`expirationTime`) and never to conclude "absent" from a read under a restriction.
+
+Also measured: `C_Secrets.ShouldSpellAuraBeSecret(spellID)` returned `false` out of combat and `true`
+in combat for that buff. `api-gotcha-reviewer` now flags a `nil` from `GetPlayerAuraBySpellID` taken
+for "buff gone".
+
+## wow-addon-dev 0.4.0 - 2026-10-11
+
+A new skill, `chat-output`: what an addon may print to the chat frame, and when. It started with a
+player's comment on one of our addons, "Too much chat spam, and the /ley signal off just turns
+itself back on".
+
+- The chat only answers something the player just did: a slash command, a click on the addon's own
+  frames, a keybinding. Nothing at login except one line after an install or an update. A repeated
+  game event or another player's message never writes to chat, and a debug mode the player turns on
+  by command is the one exception.
+- An on/off command typed alone shows the state and the word that changes it. Only `on` and `off`
+  change it.
+- What doesn't belong in chat goes to a toast in the game's own stack (`AlertFrame`), or to an icon
+  for a state that lasts. A toast is for news: coming back to something the addon already knows
+  shows nothing.
+- `api-gotcha-reviewer` loads the skill and flags new lines that break it.
+- The `new-addon` template stops printing "loaded" at every login. It says so once after an install
+  or an update, and its test checks that.
+
+New in `wow-forever-api` (`taint-and-protected-frames.md`, Forever build 70338): the game's toast
+stack is open to addons. Toasts registered with `AlertFrame:AddQueuedAlertFrameSubSystem` showed in
+combat with nothing blocked, two at once sat one above the other, and a Blizzard toast after ours
+went through. A toast fed by an aura read gets nothing in combat, because the read itself throws;
+deciding once combat ends was seen working.
+
+## wow-addon-dev 0.3.11 - 2026-10-10
+
+One more Discord fact in `wow-forever-api`, measured on Forever build 70338: a Discord bot can't post
+in a guild's linked channel, but with "Manage Messages" on it, it can delete a line relayed from the
+game, and that line then disappears from the guild's Discord stream in game too.
+
+## wow-addon-dev 0.3.10 - 2026-10-10
+
+More in `wow-forever-api`: guild chat linked to a Discord channel, measured on Forever build 70338
+with two accounts in one guild.
+
+- A line written on Discord reaches the game as `CHAT_MSG_GUILD`, or as `CHAT_MSG_GUILD_DISCORD` when
+  the guild keeps Discord in a separate stream. Its text is an opaque K-string you can't read, and
+  its sender is a Discord name, not a character. Check `discordInfo.fromDiscord` (the 18th argument)
+  before you treat the sender as a player.
+- Your addon can post to the guild's Discord stream with `C_Club.SendMessage`, from a click, even
+  for a regular member. That stream only exists when the separate stream is on, so it's also the
+  only way to tell that a guild is linked.
+- Nearly all of `C_Discord` is protected, read-only getters included.
+- On Discord, item and profession links turn into plain text, and a Discord bot can't post in a
+  linked channel (error 20062).
 
 ## wow-addon-dev 0.3.9 - 2026-10-09
 

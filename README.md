@@ -150,12 +150,16 @@ Skills load when the subject comes up, and agents are helpers Claude can hand a 
 - `workspace` explains the layout, the checks, and the habits that saved my releases.
 - `curseforge-copy` keeps your CurseForge page and changelog from sounding like a chatbot wrote
   them.
+- `chat-output` keeps your addon out of the player's chat. It only answers what the player just
+  did, says nothing at login except after an update, and never prints a line per cast or per
+  event. It came from a comment a player left on one of my addons: "Too much chat spam, and the
+  /ley signal off just turns itself back on."
 - The `wow-api-lookup` agent looks an API up in Blizzard's UI source for the client your addon
   targets (clone [Gethe/wow-ui-source](https://github.com/Gethe/wow-ui-source) into
   `Documentation/wow-ui-source-<branch>`), and never treats a missing doc entry as proof the API is
   gone.
 - The `api-gotcha-reviewer` agent reads your diff before a release and flags the traps above, each
-  with the measured fact behind it.
+  with the measured fact behind it, plus any new chat line that breaks `chat-output`.
 
 ## Guardrails
 
